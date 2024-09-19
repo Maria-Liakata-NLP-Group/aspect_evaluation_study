@@ -1,0 +1,29 @@
+{
+  "name": "nlp_annotations",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "bulma": "^1.0.2",
+    "bulma-scss": "^0.9.4",
+    "firebase": "^10.13.2",
+    "next": "14.2.12",
+    "react": "^18",
+    "react-dom": "^18",
+    "sass": "^1.79.1"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "14.2.12",
+    "gh-pages": "^6.1.1"
+  },
+  "scripts": {
+    "export": "next build && next export",
+    "deploy": "npm run export && gh-pages -d out"
+  }
+}
