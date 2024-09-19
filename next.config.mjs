@@ -1,5 +1,3 @@
-/** @type {import('next').NextConfig} */
-
 const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig = {
@@ -8,7 +6,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  reactStrictMode: true, // Moved reactStrictMode inside the same config object
+  reactStrictMode: true,
+  output: "export", // This enables static export in Next.js 14+
 };
 
 export default nextConfig;
