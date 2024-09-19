@@ -2,16 +2,13 @@
 
 const isProd = process.env.NODE_ENV === "production";
 
-module.exports = {
-  basePath: isProd ? "/nlp_reasoning_annotations/" : "",
+const nextConfig = {
+  basePath: isProd ? "/nlp_reasoning_annotations" : "",
   assetPrefix: isProd ? "/nlp_reasoning_annotations/" : "",
   images: {
     unoptimized: true,
   },
-};
-
-const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: true, // Moved reactStrictMode inside the same config object
 };
 
 export default nextConfig;
