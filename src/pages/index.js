@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import AnnotationPanel from "./annotation";
 import Intro from "./intro";
 import Image from "next/image";
 import localFont from "next/font/local";
 
-import data from "../data/clfever.json";
+// get data from Vercel KV
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -19,8 +19,31 @@ const geistMono = localFont({
 });
 
 export default function Home() {
-  const [stage, setStage] = useState("intro"); // intro, annotation or finish
-  const [claim, setClaim] = useState(0);
+  const [participant, setParticipant] = useState('test');
+  const [stage, setStage] = useState("loading"); // loading, intro, annotation or finish
+  const [batchId, setBatchId] = useState(null); // Data from Vercel KV
+  const [data, setData] = useState(null); // Data from Vercel KV
+  const [claim, setClaim] = useState(0); // Index of claim
+  const [responses, setResponses] = useState([]); // Array of responses
+
+  useEffect(() => {
+    //Fetch data from Vercel KV
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/getData");
+        const result = await response.json();
+        setData(result.claims);
+        setBatchId(result.batchId);
+        setStage("intro");
+      } catch (error) {
+        console.error("Error fetching data from Vercel KV:", error);
+        alert("Error fetching data from Vercel KV. Please refresh the page.");
+      }
+    };
+
+    fetchData();
+  }, []);
+
 
   // Function to get the next claim
   const getNextClaim = () => {
@@ -32,7 +55,14 @@ export default function Home() {
   };
 
   const getStagePage = () => {
-    if (stage === "intro") {
+    if (stage === "loading") {
+      return (
+        <div className="section">
+          <h1 className="title">Loading...</h1>
+        </div>
+      );
+    }
+    else if (stage === "intro") {
       return <Intro nextButtonFunction={() => setStage("annotation")} />
     }
     else if (stage === "annotation") {

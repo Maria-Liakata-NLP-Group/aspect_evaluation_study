@@ -1,7 +1,19 @@
-const Intro = ({ nextButtonFunction }) => (
+const Intro = ({ nextButtonFunction }) => {
+  
+  
+  return (
   <>
     <section className="section">
       <h1 className="title">Welcome to the NLP Annotation Tool</h1>
+      <p>
+        Please enter your Prolific ID in the below if it is not displayed already.
+      </p>
+      <div className="field">
+        <label className="label">Prolific ID</label>
+        <div className="control">
+          <input className="input" type="text" placeholder="Enter your Prolific ID" />
+        </div>
+      </div>
       <h2 className="subtitle">Guidelines</h2>
       <p>
         Non irure mollit eu commodo commodo. Consequat ullamco ad deserunt et id
@@ -24,6 +36,6 @@ const Intro = ({ nextButtonFunction }) => (
       </button>
     </section>
   </>
-);
+)};
 
 export default Intro;

@@ -10,6 +10,7 @@
     "deploy": "npm run build && gh-pages -d out"
   },
   "dependencies": {
+    "@vercel/kv": "^2.0.0",
     "bulma": "^1.0.2",
     "bulma-scss": "^0.9.4",
     "firebase": "^10.13.2",
