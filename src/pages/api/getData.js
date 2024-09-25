@@ -1,8 +1,8 @@
 import { kv } from "@vercel/kv";
 
 export default async function handler(request, response) {
-  // Get batch id
-  const batchId = await kv.lindex("queue", 1);
+  // Get next batchid in queue
+  const batchId = await kv.lpop("queue");
 
   // Get claim ids in batch
   const claimIdsRequest = await kv.hgetall(batchId);

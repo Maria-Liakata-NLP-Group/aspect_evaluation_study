@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import AnnotationPanel from "./annotation";
 import Intro from "./intro";
-import Image from "next/image";
+import { kv } from "@vercel/kv";
 import localFont from "next/font/local";
 
 // get data from Vercel KV
@@ -19,6 +19,8 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+
+
 export default function Home() {
   const router = useRouter();
   const [participant, setParticipant] = useState(""); // Prolific ID
@@ -26,7 +28,7 @@ export default function Home() {
   const [batchId, setBatchId] = useState(null); // Data from Vercel KV
   const [data, setData] = useState(null); // Data from Vercel KV
   const [claim, setClaim] = useState(0); // Index of claim
-  const [responses, setResponses] = useState({}); // Dict containing responses as claim_id: response 
+  const [responses, setResponses] = useState({}); // Dict containing responses as claim_id: response
 
   useEffect(() => {
     //Fetch data from Vercel KV
@@ -44,20 +46,31 @@ export default function Home() {
     };
 
     fetchData();
-
   }, []);
 
-    useEffect(() => {
-      if (router.isReady) {
-        const { PROLIFIC_PID, STUDY_ID, SESSION_ID } = router.query;
+  useEffect(() => {
+    if (router.isReady) {
+      const { PROLIFIC_PID, STUDY_ID, SESSION_ID } = router.query;
 
-        // Set Prolific ID, Study ID, and Session ID from query parameters
-        if (PROLIFIC_PID) {
-          setParticipant(PROLIFIC_PID);
-        }
+      // Set Prolific ID, Study ID, and Session ID from query parameters
+      if (PROLIFIC_PID) {
+        setParticipant(PROLIFIC_PID);
       }
-    }, [router.isReady, router.query]);
+    }
+  }, [router.isReady, router.query]);
 
+  // send responses to Vercel KV
+  const sendResponses = async (responses, participant, batchId) => {
+    try {
+      await kv.hset(participant, responses);
+      await kv.lpush("participants", { participant: batchId });
+      setStage("finish");
+    } catch (error) {
+      console.error("Error sending responses to Vercel KV:", error);
+      setStage("annotation");
+      alert("Error sending responses to Vercel KV. Please try again.");
+    }
+  };
 
   // Function to get the next claim
   const getNextClaim = (response) => {
@@ -67,15 +80,15 @@ export default function Home() {
     if (claim < data.length - 1) {
       setClaim(claim + 1);
     } else {
-      console.log(responses);
-      setStage("finish");
+      setStage("loading");
+      sendResponses(responses, participant, batchId);
     }
   };
 
   const proceedFromIntro = (id) => {
     setParticipant(id);
     setStage("annotation");
-  }
+  };
 
   const getStagePage = () => {
     if (stage === "loading") {
@@ -84,11 +97,11 @@ export default function Home() {
           <h1 className="title">Loading...</h1>
         </div>
       );
-    }
-    else if (stage === "intro") {
-      return <Intro nextButtonFunction={proceedFromIntro} idField={participant}/>
-    }
-    else if (stage === "annotation") {
+    } else if (stage === "intro") {
+      return (
+        <Intro nextButtonFunction={proceedFromIntro} idField={participant} />
+      );
+    } else if (stage === "annotation") {
       return (
         <AnnotationPanel
           claim={data[claim].claim}
@@ -104,7 +117,7 @@ export default function Home() {
         </div>
       );
     }
-  }
+  };
 
   return (
     <>
@@ -115,9 +128,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        {getStagePage()}
-      </main>
+      <main>{getStagePage()}</main>
     </>
   );
 }
