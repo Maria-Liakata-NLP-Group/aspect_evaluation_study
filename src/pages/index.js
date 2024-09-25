@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import AnnotationPanel from "./annotation";
 import Intro from "./intro";
@@ -19,12 +20,13 @@ const geistMono = localFont({
 });
 
 export default function Home() {
-  const [participant, setParticipant] = useState('test');
+  const router = useRouter();
+  const [participant, setParticipant] = useState(""); // Prolific ID
   const [stage, setStage] = useState("loading"); // loading, intro, annotation or finish
   const [batchId, setBatchId] = useState(null); // Data from Vercel KV
   const [data, setData] = useState(null); // Data from Vercel KV
   const [claim, setClaim] = useState(0); // Index of claim
-  const [responses, setResponses] = useState([]); // Array of responses
+  const [responses, setResponses] = useState({}); // Dict containing responses as claim_id: response 
 
   useEffect(() => {
     //Fetch data from Vercel KV
@@ -42,17 +44,38 @@ export default function Home() {
     };
 
     fetchData();
+
   }, []);
+
+    useEffect(() => {
+      if (router.isReady) {
+        const { PROLIFIC_PID, STUDY_ID, SESSION_ID } = router.query;
+
+        // Set Prolific ID, Study ID, and Session ID from query parameters
+        if (PROLIFIC_PID) {
+          setParticipant(PROLIFIC_PID);
+        }
+      }
+    }, [router.isReady, router.query]);
 
 
   // Function to get the next claim
-  const getNextClaim = () => {
+  const getNextClaim = (response) => {
+    // Save the response
+    responses[data[claim].id] = response;
+    setResponses(responses);
     if (claim < data.length - 1) {
       setClaim(claim + 1);
     } else {
+      console.log(responses);
       setStage("finish");
     }
   };
+
+  const proceedFromIntro = (id) => {
+    setParticipant(id);
+    setStage("annotation");
+  }
 
   const getStagePage = () => {
     if (stage === "loading") {
@@ -63,7 +86,7 @@ export default function Home() {
       );
     }
     else if (stage === "intro") {
-      return <Intro nextButtonFunction={() => setStage("annotation")} />
+      return <Intro nextButtonFunction={proceedFromIntro} idField={participant}/>
     }
     else if (stage === "annotation") {
       return (
