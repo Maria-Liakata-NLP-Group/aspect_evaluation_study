@@ -1,15 +1,15 @@
 import {useState, useEffect} from "react";
 
 const getTagColour = (veracity) => {
-    if (veracity === "SUPPORTS") {
+    if (veracity === "SUPPORTS" || veracity === "true") {
       return "is-success";
     }
-    else if (veracity === "REFUTES") {
+    else if (veracity === "REFUTES" || veracity === "false") {
         return "is-danger";
     }
 }
 
-const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction }) => {
+const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction, progress }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
 
   // Reset the radio selection when claim or evidence changes (or any relevant prop)
@@ -31,6 +31,7 @@ const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction }) => {
 
   return (
     <section className="section">
+      <h1 className="title">Claim {progress}</h1>
       <div className="box">
         <h3 className="subtitle pb-2">Claim</h3>
         <p>{claim}</p>
@@ -40,7 +41,7 @@ const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction }) => {
         <p>{evidence}</p>
       </div>
       <span className={`tag ${getTagColour(veracity)} is-large`}>
-        <b>{veracity}</b>
+        <b>{String(veracity)}</b>
       </span>
       <div
         className="mt-5 has-rounded-border p-3"

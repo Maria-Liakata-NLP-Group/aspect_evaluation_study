@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import Guidelines from './components/guidelines';
 
 const Intro = ({ nextButtonFunction, idField }) => {
   const [id, setId] = useState(idField);
@@ -19,12 +20,12 @@ const Intro = ({ nextButtonFunction, idField }) => {
   return (
     <>
       <section className="section">
-        <h1 className="title">Welcome to the NLP Annotation Tool</h1>
-        <p>
+        <h1 className="title mt-2">Welcome to the NLP Annotation Tool</h1>
+        <p className='mt-4'>
           Please enter your Prolific ID in the below if it is not displayed
           already.
         </p>
-        <div className="field">
+        <div className="field mt-2 mb-5">
           <label className="label">Prolific ID</label>
           <div className="control">
             <input
@@ -36,25 +37,11 @@ const Intro = ({ nextButtonFunction, idField }) => {
             />
           </div>
         </div>
-        <h2 className="subtitle">Guidelines</h2>
-        <p>
-          Non irure mollit eu commodo commodo. Consequat ullamco ad deserunt et
-          id ut culpa quis fugiat dolor nostrud. Et excepteur consequat nostrud
-          labore nostrud reprehenderit in in amet nostrud reprehenderit non amet
-          amet. Adipisicing in eu ex ullamco incididunt minim aute velit nulla
-          Lorem qui consequat qui. Id mollit exercitation proident excepteur
-          magna et ut do.
-        </p>
-        <p>
-          Dolor et labore cillum laboris non adipisicing cupidatat. Consequat
-          proident tempor enim ut voluptate id. Minim dolore tempor laboris ea
-          ullamco in laborum. Velit consequat officia exercitation ut. Ad do
-          officia ipsum nostrud anim tempor excepteur ea voluptate eu irure.
-          Adipisicing in eu ex ullamco incididunt minim aute velit nulla Lorem
-          qui consequat qui. Id mollit exercitation proident excepteur magna et
-          ut do.
-        </p>
-        <button className="button" onClick={handleNextButtonClick}>
+        <div className="mt-5">
+          <Guidelines />
+        </div>
+
+        <button className="button mt-4" onClick={handleNextButtonClick}>
           Start
         </button>
       </section>

@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import AnnotationPanel from "./annotation";
 import Intro from "./intro";
-import { kv } from "@vercel/kv";
+import Navbar from "./components/navbar";
+import Guidelines from "./components/guidelines";
 import localFont from "next/font/local";
 
 // get data from Vercel KV
@@ -29,6 +30,7 @@ export default function Home() {
   const [data, setData] = useState(null); // Data from Vercel KV
   const [claim, setClaim] = useState(0); // Index of claim
   const [responses, setResponses] = useState({}); // Dict containing responses as claim_id: response
+  const [showHelp, setShowHelp] = useState(false);
 
   useEffect(() => {
     //Fetch data from Vercel KV
@@ -44,7 +46,6 @@ export default function Home() {
         alert("Error fetching data from Vercel KV. Please refresh the page.");
       }
     };
-
     fetchData();
   }, []);
 
@@ -58,6 +59,13 @@ export default function Home() {
       }
     }
   }, [router.isReady, router.query]);
+
+  useEffect(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth", // Optional: Adds a smooth scrolling effect
+    });
+  }, [stage, claim]) // Scroll to top when stage or claim changes
 
   const sendResponses = async (responses, participant, batchId) => {
     try {
@@ -120,12 +128,20 @@ export default function Home() {
           evidence={data[claim].evidence}
           veracity={data[claim].label}
           nextButtonFunction={getNextClaim}
+          progress={`${claim + 1}/${data.length}`}
         />
       );
     } else if (stage === "finish") {
       return (
         <div className="section">
           <h1 className="title">Thank you for annotating the data!</h1>
+          <p className="mt-4">
+            You can now return to Prolific and submit your completion code.
+            <br />
+            <br />
+            <b>Completion code: </b>
+            <span className="tag">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span>
+          </p>
         </div>
       );
     }
@@ -139,6 +155,26 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Navbar clickOnHelp={() => setShowHelp(true)} />
+
+      <div className={`modal ${showHelp ? "is-active" : ""}`}>
+        <div
+          className="modal-background"
+          onClick={() => setShowHelp(false)}
+        ></div>
+        <div className="modal-content">
+          <div className="box">
+            <Guidelines />
+          </div>
+        </div>
+        <button
+          className="modal-close is-large has-text-weight-bold"
+          aria-label="close"
+          onClick={() => setShowHelp(false)}
+        >
+          X
+        </button>
+      </div>
 
       <main>{getStagePage()}</main>
     </>

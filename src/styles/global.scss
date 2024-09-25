@@ -20,3 +20,7 @@ main {
   border-color: var(--bulma-light);
   border-style: solid;
 }
+
+.link:hover {
+  cursor: pointer;
+}
