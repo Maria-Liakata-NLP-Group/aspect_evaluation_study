@@ -59,18 +59,30 @@ export default function Home() {
     }
   }, [router.isReady, router.query]);
 
-  // send responses to Vercel KV
   const sendResponses = async (responses, participant, batchId) => {
     try {
-      await kv.hset(participant, responses);
-      await kv.lpush("participants", { participant: batchId });
-      setStage("finish");
+      const response = await fetch("/api/saveResponses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ participant, responses, batchId }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to save responses");
+      }
+
+      setStage("finish"); // Proceed to the finish stage if successful
     } catch (error) {
-      console.error("Error sending responses to Vercel KV:", error);
-      setStage("annotation");
-      alert("Error sending responses to Vercel KV. Please try again.");
+      console.error("Error sending responses to the API:", error);
+      setStage("annotation"); // Go back to annotation stage if there's an error
+      alert("Error sending responses. Please try again.");
     }
   };
+
 
   // Function to get the next claim
   const getNextClaim = (response) => {
