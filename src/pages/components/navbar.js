@@ -2,8 +2,8 @@ const Navbar = ({clickOnHelp}) => {
     return (
       <nav className="navbar is-dark is-flex">
         <div className="navbar-brand is-flex-grow-1">
-          <span className="tag p-5 m-2">
-            <h1 className="is-size-5-desktop is-size-7-mobile has-text-light has-text-weight-bold">
+          <span className="tag p-5 m-2 is-logo">
+            <h1 className="is-size-5-desktop is-size-7-mobile">
               NLP Reasoning Annotation
             </h1>
           </span>
