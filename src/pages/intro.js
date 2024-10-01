@@ -38,6 +38,9 @@ const Intro = ({ batchId, nextButtonFunction, idField }) => {
           </div>
         </div>
         <div className="mt-5">
+          <p className='mb-5'>
+            Please read the following guidelines carefully before starting the task. If you need to refer to them later, you can bring them up by clicking in the top right corner of the screen.
+          </p>
           <Guidelines batchId={batchId}/>
         </div>
 
