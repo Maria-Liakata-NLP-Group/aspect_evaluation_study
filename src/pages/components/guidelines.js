@@ -436,9 +436,9 @@ const phemeplus = generateGuidelines(
 );
 
 const getGuidelines = (batchId) => {
-  if (batchId.includes("vitc")) return vitC;
-  else if (batchId.includes("cl")) return climateFever;
-  else if (batchId.includes("ph")) return phemeplus;
+  if (batchId?.includes("vitc")) return vitC;
+  else if (batchId?.includes("cl")) return climateFever;
+  else if (batchId?.includes("ph")) return phemeplus;
   else return <></>;
 };
 
