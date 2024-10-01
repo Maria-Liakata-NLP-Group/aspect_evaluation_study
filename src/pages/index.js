@@ -26,7 +26,7 @@ export default function Home() {
   const router = useRouter();
   const [participant, setParticipant] = useState(""); // Prolific ID
   const [stage, setStage] = useState("loading"); // loading, intro, annotation or finish
-  const [batchId, setBatchId] = useState(null); // Data from Vercel KV
+  const [batchId, setBatchId] = useState(""); // Data from Vercel KV
   const [data, setData] = useState(null); // Data from Vercel KV
   const [claim, setClaim] = useState(0); // Index of claim
   const [responses, setResponses] = useState({}); // Dict containing responses as claim_id: response
@@ -119,7 +119,10 @@ export default function Home() {
       );
     } else if (stage === "intro") {
       return (
-        <Intro nextButtonFunction={proceedFromIntro} idField={participant} />
+        <Intro nextButtonFunction={proceedFromIntro} 
+               idField={participant} 
+               batchId={batchId}
+               />
       );
     } else if (stage === "annotation") {
       return (
@@ -164,7 +167,7 @@ export default function Home() {
         ></div>
         <div className="modal-content">
           <div className="box">
-            <Guidelines />
+            <Guidelines batchId={batchId}/>
           </div>
         </div>
         <button

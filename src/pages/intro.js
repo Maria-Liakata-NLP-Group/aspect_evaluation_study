@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import Guidelines from './components/guidelines';
 
-const Intro = ({ nextButtonFunction, idField }) => {
+const Intro = ({ batchId, nextButtonFunction, idField }) => {
   const [id, setId] = useState(idField);
 
   const handleInputChange = (event) => {
@@ -38,7 +38,7 @@ const Intro = ({ nextButtonFunction, idField }) => {
           </div>
         </div>
         <div className="mt-5">
-          <Guidelines />
+          <Guidelines batchId={batchId}/>
         </div>
 
         <button className="button mt-4" onClick={handleNextButtonClick}>
