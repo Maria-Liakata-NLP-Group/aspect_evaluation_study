@@ -40,3 +40,4 @@ next-env.d.ts
 
 # datasets
 /data_prep/*.json
+/data_prep/*.csv

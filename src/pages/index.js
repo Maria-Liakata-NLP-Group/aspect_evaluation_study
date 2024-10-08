@@ -1,44 +1,51 @@
 import { useState, useEffect} from "react";
 import { useRouter } from "next/router";
-import Head from "next/head";
+
 import AnnotationPanel from "./annotation";
+import Guidelines from "./components/guidelines";
+import Head from "next/head";
 import Intro from "./intro";
 import Navbar from "./components/navbar";
-import Guidelines from "./components/guidelines";
-import localFont from "next/font/local";
-
-// get data from Vercel KV
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import SuccessfulAssessment from "./successfulAssessment";
 
 
+const checkAssessment = (responses, assessment) => {
+  const score = assessment.reduce((acc, claim) => {
+    if (responses[claim.id] === claim.reasoning) {
+        if (claim.reasoning === "deductive") {
+          acc.deductive += 1;
+        } else {
+          acc.abductive += 1;
+      }
+    }
+    return acc;
+    }, {deductive: 0, abductive: 0});
+  
+  if (score.deductive >= 2 && score.abductive >= 1) return true;
+  else return false;
+}
 
 export default function Home() {
   const router = useRouter();
   const [participant, setParticipant] = useState(""); // Prolific ID
-  const [stage, setStage] = useState("loading"); // loading, intro, annotation or finish
+  const [stage, setStage] = useState("loading"); // loading, intro, assessment, successfulAssessment, annotation or finish
   const [batchId, setBatchId] = useState(""); // Data from Vercel KV
-  const [data, setData] = useState(null); // Data from Vercel KV
+  const [data, setData] = useState(null); // Current data displayed (either assessement of annotation)
+  const [assessment, setAssessment] = useState(null); // Assessment data from Vercel KV
+  const [annotation, setAnnotation] = useState(null); // Annotation data from Vercel KV
   const [claim, setClaim] = useState(0); // Index of claim
   const [responses, setResponses] = useState({}); // Dict containing responses as claim_id: response
-  const [showHelp, setShowHelp] = useState(false);
+  const [showHelp, setShowHelp] = useState(false); // Display guidelines in a modal
 
+  // Function exectued when app is fist loaded
   useEffect(() => {
     //Fetch data from Vercel KV
     const fetchData = async () => {
       try {
         const response = await fetch("/api/getData");
         const result = await response.json();
-        setData(result.claims);
+        setAssessment(result.assessmentClaims);
+        setAnnotation(result.claims);
         setBatchId(result.batchId);
         setStage("intro");
       } catch (error) {
@@ -49,6 +56,7 @@ export default function Home() {
     fetchData();
   }, []);
 
+  // Function executed when router changed
   useEffect(() => {
     if (router.isReady) {
       const { PROLIFIC_PID, STUDY_ID, SESSION_ID } = router.query;
@@ -60,13 +68,15 @@ export default function Home() {
     }
   }, [router.isReady, router.query]);
 
+  // Scroll to top when stage or claim changes
   useEffect(() => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth", // Optional: Adds a smooth scrolling effect
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Optional: Adds a smooth scrolling effect
     });
-  }, [stage, claim]) // Scroll to top when stage or claim changes
+  }, [stage, claim]); // Scroll to top when stage or claim changes
 
+  // Send responses to Vercel KV database
   const sendResponses = async (responses, participant, batchId) => {
     try {
       const response = await fetch("/api/saveResponses", {
@@ -74,7 +84,7 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ participant, responses, batchId }),
+        body: JSON.stringify({ participant, responses, batchId, stage}),
       });
 
       const result = await response.json();
@@ -83,7 +93,20 @@ export default function Home() {
         throw new Error(result.error || "Failed to save responses");
       }
 
-      setStage("finish"); // Proceed to the finish stage if successful
+      if (stage === "annotation") {
+        setStage("finish"); // Proceed to the finish stage after annotation
+      } 
+      else if (stage === "assessment") {
+        // check if the assessment is successful
+        // if successful, proceed to the annotation stage
+        // if not, proceed to the finish stage
+        if (checkAssessment(responses, assessment)) {
+            setStage("successfulAssessment");
+        } else {
+            setStage("finish");
+        }
+
+      }
     } catch (error) {
       console.error("Error sending responses to the API:", error);
       setStage("annotation"); // Go back to annotation stage if there's an error
@@ -91,8 +114,21 @@ export default function Home() {
     }
   };
 
+  // Function triggered when "start" button is clicked on the intro page
+  const proceedFromIntro = (id) => {
+    setParticipant(id);
+    setData(assessment);
+    setStage("assessment");
+  };
 
-  // Function to get the next claim
+  const proceedFromAssessment = () => {
+      setClaim(0);
+      setData(annotation);
+      setResponses({});
+      setStage("annotation");
+  }
+
+  // Function to get the next claim during assessment or annotation
   const getNextClaim = (response) => {
     // Save the response
     responses[data[claim].id] = response;
@@ -105,11 +141,7 @@ export default function Home() {
     }
   };
 
-  const proceedFromIntro = (id) => {
-    setParticipant(id);
-    setStage("annotation");
-  };
-
+  // Function to get the current stage page
   const getStagePage = () => {
     if (stage === "loading") {
       return (
@@ -119,12 +151,17 @@ export default function Home() {
       );
     } else if (stage === "intro") {
       return (
-        <Intro nextButtonFunction={proceedFromIntro} 
-               idField={participant} 
-               batchId={batchId}
-               />
+        <Intro
+          nextButtonFunction={proceedFromIntro}
+          idField={participant}
+          batchId={batchId}
+        />
       );
-    } else if (stage === "annotation") {
+    } else if (stage === "successfulAssessment") {
+      return (
+        <SuccessfulAssessment handleNextButtonClick={proceedFromAssessment} />
+      );    
+    } else if (stage === "annotation" || stage === "assessment") {
       return (
         <AnnotationPanel
           claim={data[claim].claim}
@@ -167,7 +204,7 @@ export default function Home() {
         ></div>
         <div className="modal-content">
           <div className="box">
-            <Guidelines batchId={batchId}/>
+            <Guidelines batchId={batchId} />
           </div>
         </div>
         <button

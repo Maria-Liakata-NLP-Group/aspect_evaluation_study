@@ -5,9 +5,9 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
-  const { participant, responses, batchId } = req.body;
+  const { participant, responses, batchId, stage } = req.body;
 
-  if (!participant || !responses || !batchId) {
+  if (!participant || !responses || !batchId || !stage) {
     return res.status(400).json({ error: "Missing required data" });
   }
 
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     await kv.hset(participant, responses);
 
     // Push the participant to the 'participants' list with their batchId
-    await kv.lpush("participants", JSON.stringify({ participant, batchId }));
+    await kv.lpush("participants", JSON.stringify({ participant, batchId, stage}));
 
     return res.status(200).json({ success: true });
   } catch (error) {

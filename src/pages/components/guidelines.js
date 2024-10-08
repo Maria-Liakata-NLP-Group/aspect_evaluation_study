@@ -1,5 +1,7 @@
+import React, { Fragment } from "react";
+
 const getExampleLayout = (example) => {
-  const {title, ...items} = example;
+  const { title, ...items } = example;
 
   return (
     <>
@@ -27,13 +29,12 @@ const generateGuidelines = (
   difference_definition,
   difference_table
 ) => {
-
   return (
     <>
       <h2 className="subtitle mb-3">Annotation Examples</h2>
       {annotation_examples.map((example, index) => {
         return (
-          <div key={index}>
+          <div key={`${example}_${index}`}>
             {getExampleLayout(example)}
             {index < annotation_examples.length - 1 && <hr />}
           </div>
@@ -44,7 +45,7 @@ const generateGuidelines = (
 
       {Object.keys(definitions).map((key) => {
         return (
-          <>
+          <Fragment key={key}>
             <div className="mt-5 mb-3">
               <u className="mb-3">
                 <b className="is-capitalized">{key} Reasoning</b>
@@ -55,13 +56,13 @@ const generateGuidelines = (
             </p>
             {definition_examples[key].map((example, index) => {
               return (
-                <div key={index}>
+                <div key={`${example}_${index}`}>
                   {getExampleLayout(example)}
                   {index < definition_examples.deductive.length - 1 && <hr />}
                 </div>
               );
             })}
-          </>
+          </Fragment>
         );
       })}
 
@@ -82,10 +83,10 @@ const generateGuidelines = (
           </tr>
           {difference_table.map((section, i) => {
             return (
-              <>
+              <Fragment key={`table_${i}`}>
                 {section.map((row, j) => {
                   return (
-                    <tr key={j}>
+                    <tr key={`${row.itemName}_${j}`}>
                       <td>
                         <b className="is-capitalized">{row.itemName}:</b>{" "}
                         {row.deductive}
@@ -102,15 +103,14 @@ const generateGuidelines = (
                     <td colSpan="2"></td>
                   </tr>
                 )}
-              </>
+              </Fragment>
             );
           })}
         </tbody>
       </table>
     </>
   );
-
-}
+};
 
 const vitC = generateGuidelines(
   [
@@ -235,8 +235,8 @@ const vitC = generateGuidelines(
         deductive:
           "Here, we can easily see that the birth year in the evidence is much later than the birth year in the claim. Hence, the evidence refutes the claim deductively. ",
         abductive:
-        "Here, we can hypothesize that as BlackBerry was one of most prominent smartphone vendors in the world, it likely was at some point in time the most prominent among all the vendors. Hence, the evidence abductively supports the claim."
-      }
+          "Here, we can hypothesize that as BlackBerry was one of most prominent smartphone vendors in the world, it likely was at some point in time the most prominent among all the vendors. Hence, the evidence abductively supports the claim.",
+      },
     ],
   ]
 );
@@ -464,10 +464,9 @@ const Guidelines = ({ batchId }) => {
         <b>veracity</b>) triples, where <b>veracity</b> is the veracity label of
         the claim given the evidence. Read each triple and label it with the
         reasoning type you think was necessary for inferring the veracity label.
-        The reasoning types are <b>abductive</b> and
-        <b>deductive</b>.
+        The reasoning types are <b>abductive</b> and <b>deductive</b>.
       </p>
-      <p className="mt-3">{getGuidelines(batchId)}</p>
+      <div className="mt-3">{getGuidelines(batchId)}</div>
     </>
   );
 };
