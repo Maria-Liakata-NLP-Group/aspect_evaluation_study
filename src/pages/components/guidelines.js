@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import Image from "next/image";
 
 const getExampleLayout = (example) => {
   const { title, ...items } = example;
@@ -70,44 +71,46 @@ const generateGuidelines = (
         Differences between Deductive and Abductive
       </h2>
       <p className="mb-3">{difference_definition}</p>
-      <table className="table is-bordered is-striped is-fullwidth">
-        <thead>
-          <tr>
-            <th>Deductive Reasoning</th>
-            <th>Abductive Reasoning</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td colSpan="2"></td>
-          </tr>
-          {difference_table.map((section, i) => {
-            return (
-              <Fragment key={`table_${i}`}>
-                {section.map((row, j) => {
-                  return (
-                    <tr key={`${row.itemName}_${j}`}>
-                      <td>
-                        <b className="is-capitalized">{row.itemName}:</b>{" "}
-                        {row.deductive}
-                      </td>
-                      <td>
-                        <b className="is-capitalized">{row.itemName}:</b>{" "}
-                        {row.abductive}
-                      </td>
+      <div class="table-container">
+        <table className="table is-bordered is-striped is-fullwidth">
+          <thead>
+            <tr>
+              <th>Deductive Reasoning</th>
+              <th>Abductive Reasoning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colSpan="2"></td>
+            </tr>
+            {difference_table.map((section, i) => {
+              return (
+                <Fragment key={`table_${i}`}>
+                  {section.map((row, j) => {
+                    return (
+                      <tr key={`${row.itemName}_${j}`}>
+                        <td>
+                          <b className="is-capitalized">{row.itemName}:</b>{" "}
+                          {row.deductive}
+                        </td>
+                        <td>
+                          <b className="is-capitalized">{row.itemName}:</b>{" "}
+                          {row.abductive}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  {i < difference_table.length - 1 && (
+                    <tr>
+                      <td colSpan="2"></td>
                     </tr>
-                  );
-                })}
-                {i < difference_table.length - 1 && (
-                  <tr>
-                    <td colSpan="2"></td>
-                  </tr>
-                )}
-              </Fragment>
-            );
-          })}
-        </tbody>
-      </table>
+                  )}
+                </Fragment>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };
@@ -120,7 +123,7 @@ const vitC = generateGuidelines(
         "It is believed that the COVID-19 virus spreads mostly through coughing.",
       evidence:
         "The virus is believed to spread between people primarily via respiratory droplets produced during coughing.",
-      veracity: "Supports",
+      label: "Supports",
       reasoning: "Deductive",
       comment:
         "We deduce the reasoning behind spreading of covid through coughing. We know from the evidence that COVIId-19 is spread through respiratory droplets produced through coughing which directly deduces that COVID-19 is indeed spread through coughing.",
@@ -130,7 +133,7 @@ const vitC = generateGuidelines(
       claim: "London's congestion charge is under 10 pounds.",
       evidence:
         "In central London, these vehicles are also exempt from the £11.5 daily London congestion charge.",
-      veracity: "Refutes",
+      label: "Refutes",
       reasoning: "Deductive",
       comment:
         "We deduce through numerical comparison. We know from the evidence that the congestion charge is £11.5 > £10 and therefore the claim is refuted through negative deduction.",
@@ -141,7 +144,7 @@ const vitC = generateGuidelines(
         "The most prominent smartphone vendor in the world was BlackBerry.",
       evidence:
         "BlackBerry was one of the most prominent smartphone vendors in the world, specializing in secure communications and mobile productivity, and well-known for the keyboards on most of its devices.",
-      veracity: "Supports",
+      label: "Supports",
       reasoning: "Abductive",
       comment:
         "Here, we can hypothesize that as BlackBerry was one of most prominent smartphone vendors in the world, it likely was at some point in time the most prominent among all the vendors. Hence, the evidence abductively supports the claim.",
@@ -150,7 +153,7 @@ const vitC = generateGuidelines(
       title: "Example 4",
       evidence:
         "The game has received critical acclaim and was hailed as an exemplary product of one of the leading video game producers in the turn-based strategy genre.",
-      veracity: "Refutes",
+      label: "Refutes",
       reasoning: "Abductive",
       comment:
         "We abductively refute this as the game was developed by a video game development company and it is unlikely for them to develop a board game as it is mentioned the game is a turn based strategy game.",
@@ -248,7 +251,7 @@ const climateFever = generateGuidelines(
       claim: "Climate change isn't increasing extreme weather damage costs.",
       evidence:
         '1. Many analyses, such as that of the Stern Review presented to the British Government, have predicted reductions by several percent of world gross domestic product due to climate related costs such as dealing with increased extreme weather events and stresses to low-lying areas due to sea level rises. 2. Global losses reveal rapidly rising costs due to extreme weather-related events since the 1970s. 3. Global warming boosts the probability of extreme weather events, like heat waves, far more than it boosts more moderate events. 4. "Impacts [of climate change] will very likely increase due to increased frequencies and intensities of some extreme weather events".',
-      veracity: "Refutes",
+      label: "Refutes",
       reasoning: "Deductive",
       comment:
         "The evidence deductively refutes the claim. We find explicit mention of increased damage cost in the second line of the evidence. While the last two lines of evidence provide explicit evidence of global causing more adverse weather events.",
@@ -258,7 +261,7 @@ const climateFever = generateGuidelines(
       claim:
         "Pluto's climate change over the last 14 years is likely a seasonal event.",
       evidence: `1. The long orbital period of Neptune results in seasons lasting forty years. 2. As a result, Neptune experiences similar seasonal changes to Earth. 3. "Evidence for methane escape and strong seasonal and dynamical perturbations of Neptune's atmospheric temperatures". 4. Each planet therefore has seasons, changes to the climate over the course of its year.`,
-      veracity: "Supportes",
+      label: "Supportes",
       reasoning: "Abductive",
       comment:
         "The claim is abductively supported. Given Pluto used to be a planet and now is labeled as a dwarf planet, we can hypothesize that it likely has the same attribute as neptune. Given pluto has the biggest orbital period, it is very much likely pluto seasons last over 10 years.",
@@ -345,7 +348,7 @@ const phemeplus = generateGuidelines(
         "Schools closed, Dammartin-en-Goele residents told to stay indoors, town ‘like warzone",
       evidence:
         "Schools went into lockdown and the town appealed to residents to stay inside resident’s houses.",
-      veracity: "True",
+      label: "True",
       reasoning: "Deductive",
       comment:
         "The evidence explicitly references the school closing down and also residents being told to shelter at home. Therefore, we deductively come to the conclusion that the rumour veracity is true.",
@@ -356,7 +359,7 @@ const phemeplus = generateGuidelines(
         "SYDNEY SIEGE : Gunman forces hostages to hold up ISIS flag in window",
       evidence:
         "A gunman overran the Lindt Cafe in Sydney Sunday night and reportedly forced hostages to display a black flag with what appeared to be the shahada, the Muslim creed, in white.",
-      veracity: "False",
+      label: "False",
       reasoning: "Deductive",
       comment:
         "we deduce that the evidence does not support the claim because the claim states “ISIS flag” whereas the evidence says it was a flag associated with the Muslim creed.",
@@ -452,19 +455,34 @@ const Guidelines = ({ batchId }) => {
         </u>
         <br />
         The goal is to identify what type of reasoning is necessary to infer the
-        veracity of a claim given associated evidence, for a set of
-        claim-evidence-veracity triples.
+        veracity label (<i>true/false</i> or <i>refutes/supports</i>) of a claim
+        given associated evidence, for a set of claim-evidence-veracity triples.
       </p>
       <p className="mt-3">
         <u>
           <b>Task Description</b>
         </u>
         <br />
-        You will be given a set of (<b>claim</b>, <b>evidence</b>,
-        <b>veracity</b>) triples, where <b>veracity</b> is the veracity label of
-        the claim given the evidence. Read each triple and label it with the
-        reasoning type you think was necessary for inferring the veracity label.
-        The reasoning types are <b>abductive</b> and <b>deductive</b>.
+        You will be given a set of <b>claim</b>, <b>evidence</b>, <b>labels</b>,
+        where label refers to the ground truth (<i>true/false</i> or{" "}
+        <i>refutes/supports</i>) of a given claim. The following figure shows
+        the process.
+      </p>
+      <div className="pl-5 pr-5">
+        <Image
+          src="/images/guidelines_flowchart.png"
+          alt="Guidelines"
+          layout="responsive"
+          width={707}
+          height={375}
+          className="mt-3"
+        />
+      </div>
+      <p className="mt-3">
+        Read the claim and its associated evidence. Afterwards see the labels
+        and then decide/choose the reasoning type you think was necessary for
+        coming to that label. The reasoning types are <b>abductive</b> and{" "}
+        <b>deductive</b>.
       </p>
       <div className="mt-3">{getGuidelines(batchId)}</div>
     </>
