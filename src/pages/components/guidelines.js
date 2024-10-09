@@ -126,7 +126,7 @@ const vitC = generateGuidelines(
       label: "Supports",
       reasoning: "Deductive",
       comment:
-        "We deduce the reasoning behind spreading of covid through coughing. We know from the evidence that COVIId-19 is spread through respiratory droplets produced through coughing which directly deduces that COVID-19 is indeed spread through coughing.",
+        "We deduce the reasoning behind spreading of covid through coughing. We know from the evidence that COVID-19 is spread through respiratory droplets produced through coughing which directly deduces that COVID-19 is indeed spread through coughing.",
     },
     {
       title: "Example 2",
@@ -151,6 +151,7 @@ const vitC = generateGuidelines(
     },
     {
       title: "Example 4",
+      claim: "Civilization IV is a board game.",
       evidence:
         "The game has received critical acclaim and was hailed as an exemplary product of one of the leading video game producers in the turn-based strategy genre.",
       label: "Refutes",
@@ -169,15 +170,15 @@ const vitC = generateGuidelines(
     deductive: [
       {
         title: "Example 1",
-        premise: "If it is raining, then there are clouds in the sky.",
+        claim: "If it is raining, then there are clouds in the sky.",
         evidence: "There are no clouds in the sky.",
-        conclusion: "Thus, it is not raining.",
+        comment: "Thus, it is not raining.",
       },
       {
         title: "Example 2",
-        premise: "If there had been a thunderstorm, it would have rained.",
+        claim: "If there had been a thunderstorm, it would have rained.",
         evidence: "If it had rained, things would have gotten wet.",
-        conclusion:
+        comment:
           "Thus, if there had been a thunderstorm, things would have gotten wet.",
       },
     ],
@@ -190,7 +191,7 @@ const vitC = generateGuidelines(
           "There are water droplets on the leaves, and the ground is damp.",
         hypothesis1: "It rained last night",
         hypothesis2: "It dewed last night.",
-        conclusion:
+        comment:
           "Dew doesn’t fall during peak summer. Therefore, the wet grass is most likely due to rain.",
       },
     ],
@@ -199,17 +200,17 @@ const vitC = generateGuidelines(
   [
     [
       {
+        itemName: "Claim",
+        deductive: "These beans are from this bag.",
+        abductive: "These beans are [oddly] white.",
+      },
+      {
         itemName: "Evidence",
         deductive: "All the beans from this bag are white.",
         abductive: "All the beans from this bag are white.",
       },
       {
-        itemName: "Premise",
-        deductive: "These beans are from this bag.",
-        abductive: "These beans are [oddly] white.",
-      },
-      {
-        itemName: "Result",
+        itemName: "Comment",
         deductive: "Therefore, these beans are white.",
         abductive: "Therefore, these beans are from this bag.",
       },
@@ -234,7 +235,7 @@ const vitC = generateGuidelines(
         abductive: "Supports",
       },
       {
-        itemName: "Comment/Conclusion",
+        itemName: "Comment",
         deductive:
           "Here, we can easily see that the birth year in the evidence is much later than the birth year in the claim. Hence, the evidence refutes the claim deductively. ",
         abductive:
@@ -279,21 +280,21 @@ const climateFever = generateGuidelines(
         title: "Example 1",
         claim:
           "Scientists have known for some time, from multiple lines of evidence, that humans are changing Earth's climate, primarily through greenhouse gas emissions.",
-        evidence: `1. In the scientific literature, there is an overwhelming consensus that global surface temperatures have increased in recent decades and that the trend is caused mainly by human-induced emissions of greenhouse gases. 2. Scientists have determined that the major factors causing the current climate change are greenhouse gases, land use changes, and aerosols and soot. 3. The Intergovernmental Panel on Climate Change said the likelihood was 90 percent to 99 percent that emissions of heat-trapping greenhouse gases like carbon dioxide, spewed from tailpipes and smokestacks, were the dominant cause of the observed warming of the last 50 years. 4. The global warming observed over the past 50 years is due primarily to human-induced emissions of heat-trapping gases. 5. Human activities, primarily the burning of fossil fuels (coal, oil, and natural gas), and secondarily the clearing of land, have increased the concentration of carbon dioxide, methane, and other heat-trapping ("greenhouse") gases in the atmosphere...There is international scientific consensus that most of the warming observed over the last 50 years is attributable to human activities.`,
+        evidence: `1. In the scientific literature, there is an overwhelming consensus that global surface temperatures have increased in recent decades and that the trend is caused mainly by human-induced emissions of greenhouse gasses. 2. Scientists have determined that the major factors causing the current climate change are greenhouse gasses, land use changes, and aerosols and soot. 3. The Intergovernmental Panel on Climate Change said the likelihood was 90 percent to 99 percent that emissions of heat-trapping greenhouse gasses like carbon dioxide, spewed from tailpipes and smokestacks, were the dominant cause of the observed warming of the last 50 years. 4. The global warming observed over the past 50 years is due primarily to human-induced emissions of heat-trapping gasses. 5. Human activities, primarily the burning of fossil fuels (coal, oil, and natural gas), and secondarily the clearing of land, have increased the concentration of carbon dioxide, methane, and other heat-trapping ("greenhouse") gasses in the atmosphere...There is international scientific consensus that most of the warming observed over the last 50 years is attributable to human activities.`,
         label: "Supports",
         reasoning: "Deductive",
-        conclusion:
+        comment:
           "The claim is deductively supported. We can find explicit evidence for support in the lines 1, 4 and 5.",
       },
       {
         title: "Example 2",
-        premise:
+        claim:
           "Despite recent attempts to paint the United States as a major global polluter, according to the World Health Organization (WHO), the U.S. is among the cleanest nations on the planet.",
         evidence:
-          "1. The most prominent is the Environmental Protection Agency (EPA), created by presidential order in 1970. 2. It is the only country in the world, other than Eritrea, to do so. 3. Since 2007, the total greenhouse gas emissions by the United States are the second highest by country, exceeded only by China. 4. The United States has historically been the world's largest producer of greenhouse gases and greenhouse gas emissions per capita remain high. 5. Issues that affect water supply in the United States include droughts in the West, water scarcity, pollution, a backlog of investment, concerns about the affordability of water for the poorest, and a rapidly retiring workforce.",
+          "1. The most prominent is the Environmental Protection Agency (EPA), created by presidential order in 1970. 2. It is the only country in the world, other than Eritrea, to do so. 3. Since 2007, the total greenhouse gas emissions by the United States are the second highest by country, exceeded only by China. 4. The United States has historically been the world's largest producer of greenhouse gasses and greenhouse gas emissions per capita remain high. 5. Issues that affect water supply in the United States include droughts in the West, water scarcity, pollution, a backlog of investment, concerns about the affordability of water for the poorest, and a rapidly retiring workforce.",
         label: "Refutes",
         reasoning: "Deductive",
-        conclusion:
+        comment:
           "The claim is deductively refuted. As per evidence (line 3) USA is the second highest greenhouse emitter in the world and it has the largest per capita emission in the world (line 4).",
       },
     ],
@@ -304,7 +305,7 @@ const climateFever = generateGuidelines(
         evidence:
           "1. Flooding creates more standing water for mosquitoes to breed; as well, shown that these vectors are able to feed more and grow faster in warmer climates. 2. When temperature rises, the larvae take a shorter time to mature and, consequently, there is a greater capacity to produce more offspring. 3. The hotter and wetter a climate is, the faster the mosquitoes can mature and the faster the disease can develop. 4. Zika fever is mainly spread via the bite of mosquitoes of the Aedes type. 5. However, rising global temperatures would allow for the disease vector to expand their range further north, allowing Zika to follow.",
         label: "Supports",
-        conclusion:
+        comment:
           "The claim is deductively supported. This evidence breaks down how warmer climate leads to higher breeding of mosquitoes and in terms this can increase the spread of Zika virus.",
       },
     ],
@@ -321,7 +322,7 @@ const climateFever = generateGuidelines(
       {
         itemName: "Evidence",
         deductive:
-          "1. Increases in atmospheric concentrations of CO 2 and other long-lived greenhouse gases such as methane, nitrous oxide and ozone have correspondingly strengthened their absorption and emission of infrared radiation, causing the rise in average global temperature since the mid-20th century. 2. Higher atmospheric CO2 concentrations have led to an increase in dissolved CO2, which causes ocean acidification. 3. Increased concentrations of gases such as CO 2 (~20%), ozone and N 2O are external forcing on the other hand.",
+          "1. Increases in atmospheric concentrations of CO 2 and other long-lived greenhouse gasses such as methane, nitrous oxide and ozone have correspondingly strengthened their absorption and emission of infrared radiation, causing the rise in average global temperature since the mid-20th century. 2. Higher atmospheric CO2 concentrations have led to an increase in dissolved CO2, which causes ocean acidification. 3. Increased concentrations of gasses such as CO 2 (~20%), ozone and N 2O are external forcing on the other hand.",
         abductive: `1. "Hurricane Harvey was year's costliest U.S. disaster at $125 billion in damages". 2. The damage for the Houston area is estimated at up to $125 billion U.S. dollars, and it is considered to be one of the worst natural disasters in the history of the United States, with the death toll exceeding 70 people. 3. It is tied with 2005's Hurricane Katrina as the costliest tropical cyclone on record, inflicting $125 billion (2017 USD) in damage, primarily from catastrophic rainfall-triggered flooding in the Houston metropolitan area and Southeast Texas. 4. Preliminary reporting from the National Oceanic and Atmospheric Administration set a more concrete total at $125 billion, making Harvey the 2nd costliest tropical cyclone on record, behind Hurricane Katrina with 2017 costs of $161 billion (after adjusting for inflation). 5. The National Oceanic and Atmospheric Administration estimated total damage at $125 billion, with a 90% confidence interval of $90–160 billion.`,
       },
       {
@@ -330,7 +331,7 @@ const climateFever = generateGuidelines(
         abductive: "Supports",
       },
       {
-        itemName: "Comment/Conclusion",
+        itemName: "Comment",
         deductive:
           "The first line of evidence provides counterexamples for the claims and disapproves it. Hence, the claim is deductively refuted.",
         abductive:
@@ -388,7 +389,7 @@ const phemeplus = generateGuidelines(
           "BREAKING Germanwings 4U9525 co-pilot's name is Andreas Lubitz , a German national , says Marseilles prosecutor .",
         evidence:
           "The co-pilot of the Germanwings Airbus A320 that crashed in the French Alps has been named by French authorities as German national Andreas Lubitz.",
-        conclusion:
+        comment:
           "We can deduce the veracity as true due to the evidence explicitly mentioning the pilots name. ",
       },
     ],
@@ -400,7 +401,7 @@ const phemeplus = generateGuidelines(
         evidence:
           "Police are negotiating with a gunman who is holding a number of people inside a central Sydney cafe, hours after five hostages ran from a central Sydney cafe.",
         label: "True",
-        conclusion:
+        comment:
           "The claim is abductively true. Here, we need to come up with the hypothesis that the police may have discovered the gunman's identity during the negotiation process.",
       },
     ],
@@ -428,7 +429,7 @@ const phemeplus = generateGuidelines(
         abductive: "true",
       },
       {
-        itemName: "Result/Conclusion",
+        itemName: "Comment",
         deductive:
           " Here we can deduce through direct comparison between claim and evidence that the claim is true. The police indeed confirm a deceased man.",
         abductive:
@@ -455,8 +456,10 @@ const Guidelines = ({ batchId }) => {
         </u>
         <br />
         The goal is to identify what type of reasoning is necessary to infer the
-        veracity label (<i>true/false</i> or <i>refutes/supports</i>) of a claim
-        given associated evidence, for a set of claim-evidence-veracity triples.
+        veracity label (
+        {batchId?.includes("ph") ? "True/False" : "Supports/Refutes"}) of a
+        claim given associated evidence, for a set of claim-evidence-veracity
+        triples.
       </p>
       <p className="mt-3">
         <u>
@@ -464,9 +467,9 @@ const Guidelines = ({ batchId }) => {
         </u>
         <br />
         You will be given a set of <b>claim</b>, <b>evidence</b>, <b>labels</b>,
-        where label refers to the ground truth (<i>true/false</i> or{" "}
-        <i>refutes/supports</i>) of a given claim. The following figure shows
-        the process.
+        where the label refers to the ground truth (
+        {batchId?.includes("ph") ? "True/False" : "Supports/Refutes"}) of a
+        given claim. The following figure shows the process.
       </p>
       <div className="pl-5 pr-5">
         <Image
