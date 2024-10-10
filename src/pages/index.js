@@ -1,6 +1,5 @@
 import { useState, useEffect} from "react";
 import { useRouter } from "next/router";
-
 import AnnotationPanel from "./annotation";
 import Guidelines from "./components/guidelines";
 import Head from "next/head";
