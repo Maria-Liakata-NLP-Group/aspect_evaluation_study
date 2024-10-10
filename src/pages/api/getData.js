@@ -9,10 +9,8 @@ const getAssessmentBatch = (batchId) => {
 
 
 export default async function handler(request, response) {
-  console.log("Get data pleaaaaaaase!!!!!!")
   // Get next batchid in queue
   const batchId = await kv.lpop("queue");
-  console.log("batchId", batchId);
   // Get claim ids in batch
   const claimIdsRequest = await kv.hgetall(batchId);
   const claimIds = claimIdsRequest.claim_ids

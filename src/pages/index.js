@@ -36,6 +36,7 @@ export default function Home() {
   const [claim, setClaim] = useState(0); // Index of claim
   const [responses, setResponses] = useState({}); // Dict containing responses as claim_id: response
   const [showHelp, setShowHelp] = useState(false); // Display guidelines in a modal
+  const [completionCode, setCompletionCode] = useState(""); // Completion code for Prolific
 
   // Function exectued when app is fist loaded
   useEffect(() => {
@@ -101,8 +102,10 @@ export default function Home() {
         // if successful, proceed to the annotation stage
         // if not, proceed to the finish stage
         if (checkAssessment(responses, assessment)) {
+            setCompletionCode(process.env.NEXT_PUBLIC_PROLIFIC_SUCCESS);
             setStage("successfulAssessment");
         } else {
+            setCompletionCode(process.env.NEXT_PUBLIC_PROLIFIC_FAIL);
             setStage("finish");
         }
 
@@ -180,7 +183,12 @@ export default function Home() {
             <br />
             <br />
             <b>Completion code: </b>
-            <span className="tag">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span>
+            <span className="tag">{completionCode}</span>
+            <br />
+            or use this link{" "}
+            <a href={`https://app.prolific.com/submissions/complete?cc=${completionCode}`}>
+              {`https://app.prolific.com/submissions/complete?cc=${completionCode}`}
+            </a>
           </p>
         </div>
       );
@@ -216,7 +224,9 @@ export default function Home() {
         </button>
       </div>
 
-      <main>{getStagePage()}</main>
+      <main>
+        {getStagePage()}
+      </main>
     </>
   );
 }
