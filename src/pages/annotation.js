@@ -1,4 +1,5 @@
 import {useState, useEffect} from "react";
+import CountDown from "./components/countDown";
 
 const getTagColour = (veracity) => {
     if (veracity === "SUPPORTS" || veracity === "true") {
@@ -11,6 +12,11 @@ const getTagColour = (veracity) => {
 
 const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction, progress }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [showNextButton, setShowNextButton] = useState(false);
+
+  const handleCountDownComplete = () => {
+    setShowNextButton(true);
+  }
 
   // Reset the radio selection when claim or evidence changes (or any relevant prop)
   useEffect(() => {
@@ -23,6 +29,7 @@ const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction, progre
     } else {
       alert("Please select an answer.");
     }
+    setShowNextButton(false);
   };
 
   const handleRadioChange = (event) => {
@@ -74,9 +81,17 @@ const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction, progre
         </div>
       </div>
       <div className="mt-5">
-        <button className="button" onClick={handleButtonClick}>
-          Next
-        </button>
+        {showNextButton ? (
+          <button className="button" onClick={handleButtonClick}>
+            Next
+          </button>
+        ) : (
+          <CountDown
+            duration={60}
+            text={"before you can proceed."}
+            handleCountDownComplete={handleCountDownComplete}
+          />
+        )}
       </div>
     </section>
   );}

@@ -1,8 +1,14 @@
 import {useState} from 'react';
+import CountDown from './components/countDown';
 import Guidelines from './components/guidelines';
 
 const Intro = ({ batchId, nextButtonFunction, idField }) => {
   const [id, setId] = useState(idField);
+  const [showStartButton, setShowStartButton] = useState(false);
+
+  const handleCountDownComplete = () => {
+    setShowStartButton(true);
+  }
 
   const handleInputChange = (event) => {
     setId(event.target.value);
@@ -43,10 +49,18 @@ const Intro = ({ batchId, nextButtonFunction, idField }) => {
           </p>
           <Guidelines batchId={batchId}/>
         </div>
-
+        <div className="mt-5">
+        {showStartButton ? (
         <button className="button mt-4" onClick={handleNextButtonClick}>
           Start
         </button>
+        ) : (
+          <CountDown 
+            duration={300}
+            text={"before you can start the task."}
+            handleCountDownComplete={handleCountDownComplete} />
+        )}
+        </div>
       </section>
     </>
   );};
