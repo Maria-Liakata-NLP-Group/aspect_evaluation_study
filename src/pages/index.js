@@ -76,6 +76,28 @@ export default function Home() {
     });
   }, [stage, claim]); // Scroll to top when stage or claim changes
 
+  // Readd batchID to queue if user fails assessment
+  const readdBatchToQueue = async () => {
+    try {
+      const response = await fetch("/api/addToQueue", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ batchId }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to readd batch to queue");
+      }
+    } catch (error) {
+      console.error("Error readding batch to queue:", error);
+      alert("Error readding batch to queue. Please try again.");
+    }
+  };
+
   // Send responses to Vercel KV database
   const sendResponses = async (responses, participant, batchId) => {
     try {
@@ -104,6 +126,7 @@ export default function Home() {
             setCompletionCode(process.env.NEXT_PUBLIC_PROLIFIC_SUCCESS);
             setStage("successfulAssessment");
         } else {
+            readdBatchToQueue();
             setCompletionCode(process.env.NEXT_PUBLIC_PROLIFIC_FAIL);
             setStage("finish");
         }
