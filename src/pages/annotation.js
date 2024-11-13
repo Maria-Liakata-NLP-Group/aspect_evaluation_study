@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react";
 import CountDown from "./components/countDown";
+import ExplanationInput from "./components/explanationInput";
 
 const getTagColour = (veracity) => {
     if (veracity === "SUPPORTS" || veracity === "true") {
@@ -12,6 +13,7 @@ const getTagColour = (veracity) => {
 
 const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction, progress }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [textInput, setTextInput] = useState("");
   const [showNextButton, setShowNextButton] = useState(false);
 
   const handleCountDownComplete = () => {
@@ -21,20 +23,34 @@ const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction, progre
   // Reset the radio selection when claim or evidence changes (or any relevant prop)
   useEffect(() => {
     setSelectedAnswer(null); // Reset the selection when new props are passed
+    setTextInput(""); // Reset the text input when new props are passed
   }, [claim, evidence, veracity]);
 
   const handleButtonClick = () => {
-    if (selectedAnswer) {
+    if (selectedAnswer && textInput) {
       nextButtonFunction(selectedAnswer);
+      setShowNextButton(false);
     } else {
-      alert("Please select an answer.");
+      alert("Please select an answer and provide an explanation.");
     }
-    setShowNextButton(false);
   };
 
   const handleRadioChange = (event) => {
     setSelectedAnswer(event.target.value);
   };
+
+
+
+  const getTextInput = () => {
+    if (!selectedAnswer) return "";
+    const maxTextLength = selectedAnswer === "deductive" ? 200 : 400;
+    return (
+      <ExplanationInput
+        maxTextLength={maxTextLength}
+        submitTextInput={setTextInput}
+      />
+    );
+  }
 
   return (
     <section className="section">
@@ -80,6 +96,7 @@ const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction, progre
           </label>
         </div>
       </div>
+      {getTextInput()}
       <div className="mt-5">
         {showNextButton ? (
           <button className="button" onClick={handleButtonClick}>
@@ -87,7 +104,7 @@ const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction, progre
           </button>
         ) : (
           <CountDown
-            duration={60}
+            duration={30}
             text={"before you can proceed."}
             handleCountDownComplete={handleCountDownComplete}
           />

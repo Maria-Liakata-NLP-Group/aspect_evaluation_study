@@ -1,6 +1,6 @@
 import { useState, useEffect} from "react";
-import { useRouter } from "next/router";
 import AnnotationPanel from "./annotation";
+import EnterID from "./enterID";
 import Guidelines from "./components/guidelines";
 import Head from "next/head";
 import Intro from "./intro";
@@ -25,9 +25,9 @@ const checkAssessment = (responses, assessment) => {
 }
 
 export default function Home() {
-  const router = useRouter();
   const [participant, setParticipant] = useState(""); // Prolific ID
-  const [stage, setStage] = useState("loading"); // loading, intro, assessment, successfulAssessment, annotation or finish
+  const [useAssessment, setUseAssessment] = useState(false); // Use assessment or not
+  const [stage, setStage] = useState("id"); // id, loading, intro, assessment, successfulAssessment, annotation and finish
   const [batchId, setBatchId] = useState(""); // Data from Vercel KV
   const [data, setData] = useState(null); // Current data displayed (either assessement of annotation)
   const [assessment, setAssessment] = useState(null); // Assessment data from Vercel KV
@@ -37,37 +37,6 @@ export default function Home() {
   const [showHelp, setShowHelp] = useState(false); // Display guidelines in a modal
   const [completionCode, setCompletionCode] = useState(""); // Completion code for Prolific
 
-  // Function exectued when app is fist loaded
-  useEffect(() => {
-    //Fetch data from Vercel KV
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/getData");
-        const result = await response.json();
-        setAssessment(result.assessmentClaims);
-        setAnnotation(result.claims);
-        setBatchId(result.batchId);
-        setStage("intro");
-      } catch (error) {
-        console.error("Error fetching data from Vercel KV:", error);
-        alert("Error fetching data from Vercel KV. Please refresh the page.");
-      }
-    };
-    fetchData();
-  }, []);
-
-  // Function executed when router changed
-  useEffect(() => {
-    if (router.isReady) {
-      const { PROLIFIC_PID, STUDY_ID, SESSION_ID } = router.query;
-
-      // Set Prolific ID, Study ID, and Session ID from query parameters
-      if (PROLIFIC_PID) {
-        setParticipant(PROLIFIC_PID);
-      }
-    }
-  }, [router.isReady, router.query]);
-
   // Scroll to top when stage or claim changes
   useEffect(() => {
     window.scrollTo({
@@ -75,6 +44,21 @@ export default function Home() {
       behavior: "smooth", // Optional: Adds a smooth scrolling effect
     });
   }, [stage, claim]); // Scroll to top when stage or claim changes
+
+  //Fetch data from Vercel KV
+  const fetchData = async () => {
+    try {
+      const response = await fetch("/api/getData");
+      const result = await response.json();
+      setAssessment(result.assessmentClaims);
+      setAnnotation(result.claims);
+      setBatchId(result.batchId);
+      setStage("intro");
+    } catch (error) {
+      console.error("Error fetching data from Vercel KV:", error);
+      alert("Error fetching data from Vercel KV. Please refresh the page.");
+    }
+  };
 
   // Readd batchID to queue if user fails assessment
   const readdBatchToQueue = async () => {
@@ -106,7 +90,7 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ participant, responses, batchId, stage}),
+        body: JSON.stringify({ participant, responses, batchId, stage }),
       });
 
       const result = await response.json();
@@ -117,20 +101,18 @@ export default function Home() {
 
       if (stage === "annotation") {
         setStage("finish"); // Proceed to the finish stage after annotation
-      } 
-      else if (stage === "assessment") {
+      } else if (stage === "assessment") {
         // check if the assessment is successful
         // if successful, proceed to the annotation stage
         // if not, proceed to the finish stage
         if (checkAssessment(responses, assessment)) {
-            setCompletionCode(process.env.NEXT_PUBLIC_PROLIFIC_SUCCESS);
-            setStage("successfulAssessment");
+          setCompletionCode(process.env.NEXT_PUBLIC_PROLIFIC_SUCCESS);
+          setStage("successfulAssessment");
         } else {
-            readdBatchToQueue();
-            setCompletionCode(process.env.NEXT_PUBLIC_PROLIFIC_FAIL);
-            setStage("finish");
+          readdBatchToQueue();
+          setCompletionCode(process.env.NEXT_PUBLIC_PROLIFIC_FAIL);
+          setStage("finish");
         }
-
       }
     } catch (error) {
       console.error("Error sending responses to the API:", error);
@@ -140,18 +122,30 @@ export default function Home() {
   };
 
   // Function triggered when "start" button is clicked on the intro page
-  const proceedFromIntro = (id) => {
+  const proceedFromID = (id) => {
+    fetchData();
     setParticipant(id);
-    setData(assessment);
-    setStage("assessment");
+    setStage("loading");
+  };
+
+  const proceedFromIntro = () => {
+    if (useAssessment) {
+      setData(assessment);
+      setStage("assessment");
+    }
+    else {
+      setData(annotation);
+      setStage("annotation");
+    }
+    
   };
 
   const proceedFromAssessment = () => {
-      setClaim(0);
-      setData(annotation);
-      setResponses({});
-      setStage("annotation");
-  }
+    setClaim(0);
+    setData(annotation);
+    setResponses({});
+    setStage("annotation");
+  };
 
   // Function to get the next claim during assessment or annotation
   const getNextClaim = (response) => {
@@ -168,7 +162,11 @@ export default function Home() {
 
   // Function to get the current stage page
   const getStagePage = () => {
-    if (stage === "loading") {
+    if (stage === "id") {
+      return (
+        <EnterID nextButtonFunction={proceedFromID}/>
+      );
+    } else if (stage === "loading") {
       return (
         <div className="section">
           <h1 className="title">Loading...</h1>
@@ -185,7 +183,7 @@ export default function Home() {
     } else if (stage === "successfulAssessment") {
       return (
         <SuccessfulAssessment handleNextButtonClick={proceedFromAssessment} />
-      );    
+      );
     } else if (stage === "annotation" || stage === "assessment") {
       return (
         <AnnotationPanel
@@ -208,7 +206,9 @@ export default function Home() {
             <span className="tag">{completionCode}</span>
             <br />
             or use this link{" "}
-            <a href={`https://app.prolific.com/submissions/complete?cc=${completionCode}`}>
+            <a
+              href={`https://app.prolific.com/submissions/complete?cc=${completionCode}`}
+            >
               {`https://app.prolific.com/submissions/complete?cc=${completionCode}`}
             </a>
           </p>
@@ -246,9 +246,7 @@ export default function Home() {
         </button>
       </div>
 
-      <main>
-        {getStagePage()}
-      </main>
+      <main>{getStagePage()}</main>
     </>
   );
 }

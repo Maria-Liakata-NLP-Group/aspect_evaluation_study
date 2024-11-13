@@ -19,7 +19,7 @@ const Intro = ({ batchId, nextButtonFunction, idField }) => {
       nextButtonFunction(id);
     }
     else {
-      alert("Please enter your Prolific ID");
+      alert("Please enter your ID");
     }
   }
   
@@ -28,17 +28,16 @@ const Intro = ({ batchId, nextButtonFunction, idField }) => {
       <section className="section">
         <h1 className="title mt-2">Welcome to the NLP Annotation Tool</h1>
         <p className='mt-4'>
-          Please enter your Prolific ID in the below if it is not displayed
-          already.
+          Please enter your ID in the field below.
         </p>
         <div className="field mt-2 mb-5">
-          <label className="label">Prolific ID</label>
+          <label className="label">ID</label>
           <div className="control">
             <input
               className="input"
               type="text"
               value={id}
-              placeholder={"Enter your Prolific ID"}
+              placeholder={"Enter your ID"}
               onChange={handleInputChange}
             />
           </div>
@@ -52,11 +51,11 @@ const Intro = ({ batchId, nextButtonFunction, idField }) => {
         <div className="mt-5">
         {showStartButton ? (
         <button className="button mt-4" onClick={handleNextButtonClick}>
-          Start
+          Next
         </button>
         ) : (
           <CountDown 
-            duration={300}
+            duration={0}
             text={"before you can start the task."}
             handleCountDownComplete={handleCountDownComplete} />
         )}
