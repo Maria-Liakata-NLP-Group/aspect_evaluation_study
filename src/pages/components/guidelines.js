@@ -71,7 +71,7 @@ const generateGuidelines = (
         Differences between Deductive and Abductive
       </h2>
       <p className="mb-3">{difference_definition}</p>
-      <div class="table-container">
+      <div className="table-container">
         <table className="table is-bordered is-striped is-fullwidth">
           <thead>
             <tr>

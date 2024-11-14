@@ -19,11 +19,10 @@ const EnterID = ({ nextButtonFunction}) => {
 
     // Function executed when router changed
     useEffect(() => {
-        console.log("Hello");
         if (router.isReady) {
-        const { ID, STUDY_ID, SESSION_ID } = router.query;
+        const { ID} = router.query;
 
-        // Set Prolific ID, Study ID, and Session ID from query parameters
+        // Set ID from query parameters
         if (ID) {
             setId(ID);
         }

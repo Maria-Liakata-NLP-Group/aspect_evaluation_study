@@ -7,7 +7,8 @@ import Intro from "./intro";
 import Navbar from "./components/navbar";
 import SuccessfulAssessment from "./successfulAssessment";
 
-
+// this is legacy code that was used for the Prolific setup
+// it will have to be rewritten for the current setup if we want to include an assessment stage
 const checkAssessment = (responses, assessment) => {
   const score = assessment.reduce((acc, claim) => {
     if (responses[claim.id] === claim.reasoning) {
@@ -26,8 +27,8 @@ const checkAssessment = (responses, assessment) => {
 
 export default function Home() {
   const [participant, setParticipant] = useState(""); // Prolific ID
-  const [useAssessment, setUseAssessment] = useState(false); // Use assessment or not
   const [stage, setStage] = useState("id"); // id, loading, intro, assessment, successfulAssessment, annotation and finish
+  const [workpackage, setWorkpackage] = useState(""); // Current workpackage
   const [batchId, setBatchId] = useState(""); // Data from Vercel KV
   const [data, setData] = useState(null); // Current data displayed (either assessement of annotation)
   const [assessment, setAssessment] = useState(null); // Assessment data from Vercel KV
@@ -45,52 +46,67 @@ export default function Home() {
     });
   }, [stage, claim]); // Scroll to top when stage or claim changes
 
-  //Fetch data from Vercel KV
-  const fetchData = async () => {
-    try {
-      const response = await fetch("/api/getData");
-      const result = await response.json();
-      setAssessment(result.assessmentClaims);
-      setAnnotation(result.claims);
-      setBatchId(result.batchId);
-      setStage("intro");
-    } catch (error) {
-      console.error("Error fetching data from Vercel KV:", error);
-      alert("Error fetching data from Vercel KV. Please refresh the page.");
-    }
-  };
 
-  // Readd batchID to queue if user fails assessment
-  const readdBatchToQueue = async () => {
-    try {
-      const response = await fetch("/api/addToQueue", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ batchId }),
-      });
 
-      const result = await response.json();
+  useEffect(() => {
+    //Fetch data from Vercel KV
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/getData", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ participant }),
+        });
 
-      if (!response.ok) {
-        throw new Error(result.error || "Failed to readd batch to queue");
+        // Check for different response statuses
+        if (response.status === 204) {
+          // Handle 204 No Content
+          console.log("No content available.");
+          alert("The participant with this ID has already completed the task.");
+          setStage("id");
+          return;
+        } else if (response.status === 404) {
+          // Handle 404 Not Found
+          console.log("Data not found.");
+          alert("The requested data could not be found. Please check if you entered the correct ID.");
+          setStage("id");
+          return;
+        } else if (!response.ok) {
+          // Handle other non-successful responses (like 500 Internal Server Error)
+          throw new Error(`Unexpected response status: ${response.status}`);
+        }
+        const result = await response.json();
+        setAssessment(result.assessmentClaims);
+        setAnnotation(result.claims);
+        setBatchId(result.batchId);
+        setWorkpackage(result.stage);
+        setClaim(result.progress);
+        setStage("intro");
+      } catch (error) {
+        console.error("Error fetching data from Vercel KV:", error);
+        alert("Error fetching data from Vercel KV. Please refresh the page.");
+        setStage("id");
       }
-    } catch (error) {
-      console.error("Error readding batch to queue:", error);
-      alert("Error readding batch to queue. Please try again.");
-    }
-  };
+    };
+    if (participant) fetchData();
+  }, [participant]);
 
   // Send responses to Vercel KV database
-  const sendResponses = async (responses, participant, batchId) => {
+  const sendResponse = async (annotationResponse) => {
+    const currentStage = stage;
+    setStage("loading");
+    const claimId = data[claim].id;
+    const dataLength = data.length;
+    const progress = claim + 1;
     try {
       const response = await fetch("/api/saveResponses", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ participant, responses, batchId, stage }),
+        body: JSON.stringify({ claimId, workpackage, annotationResponse , participant, progress, dataLength }),
       });
 
       const result = await response.json();
@@ -98,38 +114,40 @@ export default function Home() {
       if (!response.ok) {
         throw new Error(result.error || "Failed to save responses");
       }
-
-      if (stage === "annotation") {
-        setStage("finish"); // Proceed to the finish stage after annotation
-      } else if (stage === "assessment") {
-        // check if the assessment is successful
-        // if successful, proceed to the annotation stage
-        // if not, proceed to the finish stage
-        if (checkAssessment(responses, assessment)) {
-          setCompletionCode(process.env.NEXT_PUBLIC_PROLIFIC_SUCCESS);
-          setStage("successfulAssessment");
-        } else {
-          readdBatchToQueue();
-          setCompletionCode(process.env.NEXT_PUBLIC_PROLIFIC_FAIL);
-          setStage("finish");
+      if (claim < data.length - 1) {
+        setClaim(claim + 1);
+        setStage(currentStage);
+      }
+      else {
+        if (currentStage === "annotation") {
+          setStage("finish"); // Proceed to the finish stage after annotation
+        } else if (currentStage === "assessment") {
+          // check if the assessment is successful
+          // if successful, proceed to the annotation stage
+          // if not, proceed to the finish stage
+          if (checkAssessment(responses, assessment)) {
+            setStage("successfulAssessment");
+          } else {
+            setStage("finish");
+          }
         }
       }
     } catch (error) {
+      setStage(currentStage);
       console.error("Error sending responses to the API:", error);
-      setStage("annotation"); // Go back to annotation stage if there's an error
       alert("Error sending responses. Please try again.");
     }
+    
   };
 
   // Function triggered when "start" button is clicked on the intro page
   const proceedFromID = (id) => {
-    fetchData();
     setParticipant(id);
     setStage("loading");
   };
 
   const proceedFromIntro = () => {
-    if (useAssessment) {
+    if (assessment.length > 0) {
       setData(assessment);
       setStage("assessment");
     }
@@ -151,13 +169,7 @@ export default function Home() {
   const getNextClaim = (response) => {
     // Save the response
     responses[data[claim].id] = response;
-    setResponses(responses);
-    if (claim < data.length - 1) {
-      setClaim(claim + 1);
-    } else {
-      setStage("loading");
-      sendResponses(responses, participant, batchId);
-    }
+    sendResponse(response);
   };
 
   // Function to get the current stage page
@@ -178,6 +190,7 @@ export default function Home() {
           nextButtonFunction={proceedFromIntro}
           idField={participant}
           batchId={batchId}
+          workpackage={workpackage}
         />
       );
     } else if (stage === "successfulAssessment") {
@@ -199,18 +212,9 @@ export default function Home() {
         <div className="section">
           <h1 className="title">Thank you for annotating the data!</h1>
           <p className="mt-4">
-            You can now return to Prolific and submit your completion code.
+            You have completed <span className="is-capitalized has-text-weight-bold">{workpackage}</span>. Please contact one of the researchers for the next steps.
             <br />
             <br />
-            <b>Completion code: </b>
-            <span className="tag">{completionCode}</span>
-            <br />
-            or use this link{" "}
-            <a
-              href={`https://app.prolific.com/submissions/complete?cc=${completionCode}`}
-            >
-              {`https://app.prolific.com/submissions/complete?cc=${completionCode}`}
-            </a>
           </p>
         </div>
       );

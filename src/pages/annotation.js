@@ -28,7 +28,7 @@ const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction, progre
 
   const handleButtonClick = () => {
     if (selectedAnswer && textInput) {
-      nextButtonFunction(selectedAnswer);
+      nextButtonFunction([selectedAnswer, textInput]);
       setShowNextButton(false);
     } else {
       alert("Please select an answer and provide an explanation.");
@@ -104,7 +104,7 @@ const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction, progre
           </button>
         ) : (
           <CountDown
-            duration={30}
+            duration={15}
             text={"before you can proceed."}
             handleCountDownComplete={handleCountDownComplete}
           />
