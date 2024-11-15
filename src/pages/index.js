@@ -1,4 +1,5 @@
 import { useState, useEffect} from "react";
+import { useRouter } from "next/router";
 import AnnotationPanel from "./annotation";
 import EnterID from "./enterID";
 import Guidelines from "./components/guidelines";
@@ -26,6 +27,7 @@ const checkAssessment = (responses, assessment) => {
 }
 
 export default function Home() {
+  const router = useRouter();
   const [participant, setParticipant] = useState(""); // Prolific ID
   const [stage, setStage] = useState("id"); // id, loading, intro, assessment, successfulAssessment, annotation and finish
   const [workpackage, setWorkpackage] = useState(""); // Current workpackage
@@ -33,10 +35,10 @@ export default function Home() {
   const [data, setData] = useState(null); // Current data displayed (either assessement of annotation)
   const [assessment, setAssessment] = useState(null); // Assessment data from Vercel KV
   const [annotation, setAnnotation] = useState(null); // Annotation data from Vercel KV
+  const [annotationTimer, setAnnotationTimer] = useState(15); // Timer in second
   const [claim, setClaim] = useState(0); // Index of claim
   const [responses, setResponses] = useState({}); // Dict containing responses as claim_id: response
   const [showHelp, setShowHelp] = useState(false); // Display guidelines in a modal
-  const [completionCode, setCompletionCode] = useState(""); // Completion code for Prolific
 
   // Scroll to top when stage or claim changes
   useEffect(() => {
@@ -46,7 +48,17 @@ export default function Home() {
     });
   }, [stage, claim]); // Scroll to top when stage or claim changes
 
+  // Get timer length from URL
+  useEffect(() => {
+    if (router.isReady) {
+      const {TIMER} = router.query;
 
+      // Set ID from query parameters
+      if (TIMER) {
+        setAnnotationTimer(TIMER);
+      }
+    }
+  }, [router.isReady, router.query]);
 
   useEffect(() => {
     //Fetch data from Vercel KV
@@ -70,7 +82,9 @@ export default function Home() {
         } else if (response.status === 404) {
           // Handle 404 Not Found
           console.log("Data not found.");
-          alert("The requested data could not be found. Please check if you entered the correct ID.");
+          alert(
+            "The requested data could not be found. Please check if you entered the correct ID."
+          );
           setStage("id");
           return;
         } else if (!response.ok) {
@@ -106,7 +120,14 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ claimId, workpackage, annotationResponse , participant, progress, dataLength }),
+        body: JSON.stringify({
+          claimId,
+          workpackage,
+          annotationResponse,
+          participant,
+          progress,
+          dataLength,
+        }),
       });
 
       const result = await response.json();
@@ -117,8 +138,7 @@ export default function Home() {
       if (claim < data.length - 1) {
         setClaim(claim + 1);
         setStage(currentStage);
-      }
-      else {
+      } else {
         if (currentStage === "annotation") {
           setStage("finish"); // Proceed to the finish stage after annotation
         } else if (currentStage === "assessment") {
@@ -137,7 +157,6 @@ export default function Home() {
       console.error("Error sending responses to the API:", error);
       alert("Error sending responses. Please try again.");
     }
-    
   };
 
   // Function triggered when "start" button is clicked on the intro page
@@ -150,12 +169,10 @@ export default function Home() {
     if (assessment.length > 0) {
       setData(assessment);
       setStage("assessment");
-    }
-    else {
+    } else {
       setData(annotation);
       setStage("annotation");
     }
-    
   };
 
   const proceedFromAssessment = () => {
@@ -175,9 +192,7 @@ export default function Home() {
   // Function to get the current stage page
   const getStagePage = () => {
     if (stage === "id") {
-      return (
-        <EnterID nextButtonFunction={proceedFromID}/>
-      );
+      return <EnterID nextButtonFunction={proceedFromID} />;
     } else if (stage === "loading") {
       return (
         <div className="section">
@@ -205,6 +220,7 @@ export default function Home() {
           veracity={data[claim].label}
           nextButtonFunction={getNextClaim}
           progress={`${claim + 1}/${data.length}`}
+          timerSeconds={annotationTimer}
         />
       );
     } else if (stage === "finish") {
@@ -212,7 +228,11 @@ export default function Home() {
         <div className="section">
           <h1 className="title">Thank you for annotating the data!</h1>
           <p className="mt-4">
-            You have completed <span className="is-capitalized has-text-weight-bold">{workpackage}</span>. Please contact one of the researchers for the next steps.
+            You have completed{" "}
+            <span className="is-capitalized has-text-weight-bold">
+              {workpackage}
+            </span>
+            . Please contact one of the researchers for the next steps.
             <br />
             <br />
           </p>

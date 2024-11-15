@@ -14,7 +14,7 @@ const getTagColour = (veracity) => {
     }
 }
 
-const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction, progress }) => {
+const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction, progress, timerSeconds }) => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [textInput, setTextInput] = useState("");
   const [showNextButton, setShowNextButton] = useState(false);
@@ -107,7 +107,7 @@ const AnnotationPanel = ({ claim, evidence, veracity, nextButtonFunction, progre
           </button>
         ) : (
           <CountDown
-            duration={15}
+            duration={timerSeconds}
             text={"before you can proceed."}
             handleCountDownComplete={handleCountDownComplete}
           />
