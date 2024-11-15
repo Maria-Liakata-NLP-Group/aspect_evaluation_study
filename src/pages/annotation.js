@@ -3,11 +3,14 @@ import CountDown from "./components/countDown";
 import ExplanationInput from "./components/explanationInput";
 
 const getTagColour = (veracity) => {
-    if (veracity === "SUPPORTS" || veracity === "true") {
+    if (veracity === "SUPPORTS" || String(veracity) === "true") {
       return "is-success";
     }
-    else if (veracity === "REFUTES" || veracity === "false") {
+    else if (veracity === "REFUTES" || String(veracity) === "false") {
         return "is-danger";
+    }
+    else {
+        return "";
     }
 }
 
