@@ -25,7 +25,7 @@ const Intro = ({ batchId, nextButtonFunction, idField, workpackage }) => {
         <h1 className="title mt-2">Welcome to the NLP Annotation Tool</h1>
         <div className="mt-5">
           <p className="mb-5">
-            Hi <span className="is-capitalized">{id}</span>, you are currently
+            Hi <span className="is-capitalized">{id === "sara" ? id + ", YOU ABSOLUTE 2-PLATE BENCH QUEEN" : id}</span>, you are currently
             at{" "}
             <span className="is-capitalized has-text-weight-bold">
               {workpackage}
