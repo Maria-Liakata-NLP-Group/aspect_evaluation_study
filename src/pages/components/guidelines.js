@@ -306,7 +306,7 @@ const climateFever = generateGuidelines(
           "1. Between 1993 and 2017, the global mean sea level rose on average by 3.1 ± 0.3 mm per year, with an acceleration detected as well. 2. Over the 21st century, the IPCC projects that in a very high emissions scenario the sea level could rise by 61–110 cm. 3. Between 1900 and 2016, the sea level rose by 16–21 cm (6.3–8.3 in). 4. 18 January 2019. 5. For at least the last 100 years, sea level has been rising at an average rate of about 1.8 mm (0.07 in) per year.",
         label: "Refutes",
         comment:
-          "The claim is abductively supported. This evidence only talks about global sea level. However, given the evidence on global sea level it is more than likely that the sea level at Sydney Harbour increased over the past 140 years.",
+          "The claim is abductively refuted. This evidence only talks about global sea level. However, given the evidence on global sea level it is more than likely that the sea level at Sydney Harbour increased over the past 140 years.",
       },
     ],
   },
