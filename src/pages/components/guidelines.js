@@ -301,12 +301,12 @@ const climateFever = generateGuidelines(
     abductive: [
       {
         title: "Example 1",
-        claim: `Global warming leads to much quicker spread of the Zika virus because the increased temperature, "makes mosquitoes mature faster, . . .`,
+        claim: `Unprecedented climate change has caused sea level at Sydney Harbour to rise approximately 0.0 cm over the past 140 years.`,
         evidence:
-          "1. Flooding creates more standing water for mosquitoes to breed; as well, shown that these vectors are able to feed more and grow faster in warmer climates. 2. When temperature rises, the larvae take a shorter time to mature and, consequently, there is a greater capacity to produce more offspring. 3. The hotter and wetter a climate is, the faster the mosquitoes can mature and the faster the disease can develop. 4. Zika fever is mainly spread via the bite of mosquitoes of the Aedes type. 5. However, rising global temperatures would allow for the disease vector to expand their range further north, allowing Zika to follow.",
-        label: "Supports",
+          "1. Between 1993 and 2017, the global mean sea level rose on average by 3.1 ± 0.3 mm per year, with an acceleration detected as well. 2. Over the 21st century, the IPCC projects that in a very high emissions scenario the sea level could rise by 61–110 cm. 3. Between 1900 and 2016, the sea level rose by 16–21 cm (6.3–8.3 in). 4. 18 January 2019. 5. For at least the last 100 years, sea level has been rising at an average rate of about 1.8 mm (0.07 in) per year.",
+        label: "Refutes",
         comment:
-          "The claim is deductively supported. This evidence breaks down how warmer climate leads to higher breeding of mosquitoes and in terms this can increase the spread of Zika virus.",
+          "The claim is abductively supported. This evidence only talks about global sea level. However, given the evidence on global sea level it is more than likely that the sea level at Sydney Harbour increased over the past 140 years.",
       },
     ],
   },
