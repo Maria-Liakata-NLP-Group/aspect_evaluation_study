@@ -1,0 +1,10 @@
+# Dependencies for handle_vercel_kv.ipynb
+numpy
+pandas
+python-dotenv
+redis
+requests
+
+# Jupyter
+notebook
+ipykernel

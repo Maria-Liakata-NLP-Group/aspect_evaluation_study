@@ -1,0 +1,302 @@
+[
+  {
+    "case_id": "Mimic_10433869",
+    "indication": "History of fever.",
+    "images": {
+      "frontal": "/images/xrays/Mimic_10433869_frontal.png",
+      "lateral": "/images/xrays/Mimic_10433869_lateral.png"
+    },
+    "report": "The lungs are clear. No pneumothorax. No focal consolidation. No pleural effusion. The cardiac contours are unchanged. The mediastinal contours are unchanged. The bony thorax is unchanged.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_10590743",
+    "indication": "___ year old woman with pleuritic chest pain with respirations. // ? PNA",
+    "images": {
+      "frontal": "/images/xrays/Mimic_10590743_frontal.png",
+      "lateral": "/images/xrays/Mimic_10590743_lateral.png"
+    },
+    "report": "The lungs are clear. No pneumothorax. No pleural effusion. The cardiac silhouette is unremarkable. The mediastinum is unremarkable.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_10815532",
+    "indication": "___ year old man with pleural effusion // eval",
+    "images": {
+      "frontal": "/images/xrays/Mimic_10815532_frontal.png",
+      "lateral": "/images/xrays/Mimic_10815532_lateral.png"
+    },
+    "report": "Small bilateral pleural effusions with overlying atelectasis. No interstitial edema. No pneumothorax. Mild cardiomegaly. Prior median sternotomy and cabg. The mediastinal and hilar contours are normal. Mild indentation along the left lower trachea, may represent a goiter.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_10893584",
+    "indication": "___ year old man with leukocytosis? pneumonia",
+    "images": {
+      "frontal": "/images/xrays/Mimic_10893584_frontal.png",
+      "lateral": "/images/xrays/Mimic_10893584_lateral.png"
+    },
+    "report": "The lung volumes are low. There is no focal consolidation. There is no pleural effusion. There is no pneumothorax. The heart size is top normal. The mediastinal contours are normal. There is no free air under the diaphragm. The airways are patent.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_11128013",
+    "indication": "___-year-old woman with a myocardial infarction complicated by sick sinus syndrome status post pacemaker placement. Evaluate lead placement.",
+    "images": {
+      "frontal": "/images/xrays/Mimic_11128013_frontal.png",
+      "lateral": "/images/xrays/Mimic_11128013_lateral.png"
+    },
+    "report": "A left chest wall pacemaker is present with leads in the right atrium and right ventricle. There is no pneumothorax. Small bilateral pleural effusions are present with associated atelectasis. The cardiac silhouette is mildly enlarged. The mediastinal contours are normal. Spinal hardware is present.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_11362587",
+    "indication": "Concern for pneumonia.",
+    "images": {
+      "frontal": "/images/xrays/Mimic_11362587_frontal.png",
+      "lateral": "/images/xrays/Mimic_11362587_lateral.png"
+    },
+    "report": "The lungs are clear. There is mild to moderate hyperexpansion. The heart is normal in size. There is no pneumothorax. There is no effusion.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_12137143",
+    "indication": "___ year old man pod#3 lumbar laminectomy w/sob and decreased oxygen saturation into ___'s on exertion // r/o atelectasis vs infectious process",
+    "images": {
+      "frontal": "/images/xrays/Mimic_12137143_frontal.png",
+      "lateral": "/images/xrays/Mimic_12137143_lateral.png"
+    },
+    "report": "Mild to moderate bibasilar atelectasis. No pulmonary edema. No pleural effusions. Mild cardiomegaly. No pneumothorax.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_12304672",
+    "indication": "___ year old man with cirrhosis and new O2 req // ?consolidation",
+    "images": {
+      "frontal": "/images/xrays/Mimic_12304672_frontal.png",
+      "lateral": "/images/xrays/Mimic_12304672_lateral.png"
+    },
+    "report": "Right internal jugular catheter with the tip in the low svc. Left chest wall single lead pacemaker is in good position. New left lower lobe opacity. Small left effusion. Right lung is clear. Mild cardiomegaly. No pneumothorax.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_12353626",
+    "indication": "___ year old woman s.p PPM implant // PTX, lead",
+    "images": {
+      "frontal": "/images/xrays/Mimic_12353626_frontal.png",
+      "lateral": "/images/xrays/Mimic_12353626_lateral.png"
+    },
+    "report": "New left-sided pacemaker with the tips in the right atrium and right ventricle. No pneumothorax. Bilateral small pleural effusions. New interstitial pulmonary edema. Moderate cardiomegaly. Prior median sternotomy and cabg. Marked mitral annulus calcifications.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_12440965",
+    "indication": "___ year old man with ESRD s/p Tx on immunosuppression with chronic productive cough // evaluation for PNA, atelectasis, aspiration",
+    "images": {
+      "frontal": "/images/xrays/Mimic_12440965_frontal.png",
+      "lateral": "/images/xrays/Mimic_12440965_lateral.png"
+    },
+    "report": "Right-sided picc terminates in the right atrium. Mild pulmonary edema. Small bilateral pleural effusions. Mild cardiomegaly. No pneumothorax. Prior vertebroplasty of the l1 vertebral body.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_12567919",
+    "indication": "___F with ?chf // eval for chf",
+    "images": {
+      "frontal": "/images/xrays/Mimic_12567919_frontal.png",
+      "lateral": "/images/xrays/Mimic_12567919_lateral.png"
+    },
+    "report": "There is moderate cardiomegaly. There is no focal consolidation. There is no pleural effusion. There is no pneumothorax. There is no pulmonary edema.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_12872850",
+    "indication": "___ year old woman with increasing oxygen requirement, wheezing and DOE. // rule out pulmonary process",
+    "images": {
+      "frontal": "/images/xrays/Mimic_12872850_frontal.png",
+      "lateral": "/images/xrays/Mimic_12872850_lateral.png"
+    },
+    "report": "Right-sided picc line with the tip in the low svc. Bilateral small to moderate pleural effusions with associated atelectasis have increased. Mild pulmonary vascular congestion has increased. Mild cardiomegaly. No pneumothorax.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_13135946",
+    "indication": "Rule out aspiration.",
+    "images": {
+      "frontal": "/images/xrays/Mimic_13135946_frontal.png",
+      "lateral": "/images/xrays/Mimic_13135946_lateral.png"
+    },
+    "report": "The lungs are clear. The heart is normal in size. No active pleural disease. A right subclavian line is in place and well positioned. There is a hiatal hernia behind the heart.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_13934236",
+    "indication": "Status post mechanical fall with right-sided rib fractures, pulmonary contusions and desaturations.",
+    "images": {
+      "frontal": "/images/xrays/Mimic_13934236_frontal.png",
+      "lateral": "/images/xrays/Mimic_13934236_lateral.png"
+    },
+    "report": "The heart is enlarged. The thoracic aorta is tortuous and calcified. There are remote right-sided rib fractures. No acute, displaced rib fractures are identified. No pneumothorax is seen. No pulmonary contusions are identified. No pulmonary edema is identified. No pleural effusions are identified. There is a calcified granuloma in the right lower lobe.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_14036905",
+    "indication": "___ year old woman w/hx mirena, POD___ s/p ORIF R distal femur fx, w/asymptomatic tachycardia HR 130s, temp ___.4 // Evaluate for evidence of PE vs atalectasis",
+    "images": {
+      "frontal": "/images/xrays/Mimic_14036905_frontal.png",
+      "lateral": "/images/xrays/Mimic_14036905_lateral.png"
+    },
+    "report": "The lungs are clear. No pneumothorax. No pleural effusion. The cardiac silhouette is not enlarged. No rib fractures identified. The patient has a left-sided nerve stimulator.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_14280430",
+    "indication": "___ year old woman with hx of afib on apixiban with subdural bleed, mostly bedbound now with persistent WBC elevation // ?PNA, infectious workup",
+    "images": {
+      "frontal": "/images/xrays/Mimic_14280430_frontal.png",
+      "lateral": "/images/xrays/Mimic_14280430_lateral.png"
+    },
+    "report": "The heart is mildly enlarged. There is pulmonary vascular redistribution. There is volume loss at both bases. There is a small left effusion. There is a patchy area of alveolar infiltrate in the right upper lobe.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_15014371",
+    "indication": "___ year old man with sCHF who presented w/ CP, SOB ___ home Lasix being held // interval change to previous xray in volume overload",
+    "images": {
+      "frontal": "/images/xrays/Mimic_15014371_frontal.png",
+      "lateral": "/images/xrays/Mimic_15014371_lateral.png"
+    },
+    "report": "As compared to chest radiograph from 1 day prior, mild pulmonary vascular congestion has improved. Bilateral small to moderate pleural effusions with associated atelectasis have not significantly changed. Moderate cardiomegaly. No pneumothorax. Pacemaker with leads in the right atrium and right ventricle.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_15346940",
+    "indication": "___ yoM with abdominal pain/CT with bibasilar opacities and new O2 requirement overnight. Any interval worsening? // ___ yoM with abdominal pain/CT with bibasilar opacities and new O2 requirement overnight. Any interval worsening? ___ yoM with abdominal pain/CT with bibasilar opacities and new O2 requirement overnight. Any interval worsening?",
+    "images": {
+      "frontal": "/images/xrays/Mimic_15346940_frontal.png",
+      "lateral": "/images/xrays/Mimic_15346940_lateral.png"
+    },
+    "report": "No acute focal consolidation. No pleural effusions. No pneumothorax. Mild cardiomegaly. Bibasilar atelectasis. Interval worsening of gaseous distention of the large bowel.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_15389058",
+    "indication": "___ yo M with history of systolic CHF (EF ___%) and CKD who presents with HF exacerbation and has become increasingly hypoxic and refractory to diuresis. Now on Lasix gtt + diuril with plans for tunneled HD line ___ and conversion to tunneled HD line with IR ___. Renal following and will perform UF ___L. // ?skin fold vs PTX",
+    "images": {
+      "frontal": "/images/xrays/Mimic_15389058_frontal.png",
+      "lateral": "/images/xrays/Mimic_15389058_lateral.png"
+    },
+    "report": "Right-sided dialysis catheter in the right atrium. No evidence of pneumothorax. Mild pulmonary edema. Bilateral pleural effusions, moderate on the left and small on the right. The heart is moderately enlarged.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_16350414",
+    "indication": "___ year old man s/p fall with hemoperitoneum without e/o solid organ injury // acute injuries",
+    "images": {
+      "frontal": "/images/xrays/Mimic_16350414_frontal.png",
+      "lateral": "/images/xrays/Mimic_16350414_lateral.png"
+    },
+    "report": "Airspace opacity in the left lower lobe. No pleural effusion. No pneumothorax. No subdiaphragmatic free air. No acute osseous abnormalities.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_16425412",
+    "indication": "___ year old woman with immunosuppression s/p renal transplant, seizures, aspiration risk, now with bilateral rhonchi at bases // Query pneumonia, aspiration, other process",
+    "images": {
+      "frontal": "/images/xrays/Mimic_16425412_frontal.png",
+      "lateral": "/images/xrays/Mimic_16425412_lateral.png"
+    },
+    "report": "The lungs are well inflated. There is bibasilar atelectasis. The left upper lobe is clear. The cardiomediastinal contour is normal. There is no pleural effusion. There is no pneumothorax. The osseous structures are unremarkable. Left-sided picc terminates in the cavoatrial junction.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_16879858",
+    "indication": "___ year old woman with HCV cirrhosis p/w large right pleural effusion now s/p large volume thoracentesis ___. // Resolution of pleural effusion?",
+    "images": {
+      "frontal": "/images/xrays/Mimic_16879858_frontal.png",
+      "lateral": "/images/xrays/Mimic_16879858_lateral.png"
+    },
+    "report": "Interval decrease in size of right pleural effusion. No pneumothorax. No left pleural effusion. Right middle lobe and lower lobe collapse. Left lung is clear. Mild cardiomegaly.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_17009417",
+    "indication": "___ year old man with hemorrhaghic pleural effusion // Evidence of effusion change?",
+    "images": {
+      "frontal": "/images/xrays/Mimic_17009417_frontal.png",
+      "lateral": "/images/xrays/Mimic_17009417_lateral.png"
+    },
+    "report": "A small left-sided pleural effusion is seen. There is adjacent basal atelectasis. The lungs are otherwise clear. The cardiac silhouette is at the upper limits of normal. Atherosclerotic calcifications are noted in the aortic arch. A nasogastric tube is seen with the tip within the stomach.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_18336565",
+    "indication": "___ year old man with dry cough and rhinorrhea // ?acute process ?PNA",
+    "images": {
+      "frontal": "/images/xrays/Mimic_18336565_frontal.png",
+      "lateral": "/images/xrays/Mimic_18336565_lateral.png"
+    },
+    "report": "Right-sided dialysis catheter with the tip in the right atrium. Heart is not enlarged. No acute focal consolidation. No effusion. No pneumothorax. No acute osseous abnormality.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_18417736",
+    "indication": "___ year old man s/___ upgrade to CRT-P via left subclavian vein // check for pnx and lead position",
+    "images": {
+      "frontal": "/images/xrays/Mimic_18417736_frontal.png",
+      "lateral": "/images/xrays/Mimic_18417736_lateral.png"
+    },
+    "report": "No pneumothorax. The right ventricular lead is in a similar position to the pre-existing right ventricular pacemaker lead. The right atrial lead is in a similar position to the pre-existing right atrial pacemaker lead. The lungs are clear. No pleural effusions. The heart is not enlarged. The aorta is ectatic. The bones are intact. The patient has had a median sternotomy. His mitral valve has been replaced with a mechanical valve.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_19038530",
+    "indication": "___ year old woman with htn, afib, presents with mixed aphasia, likely stroke. Eval for aspiration, infection // eval for underlying inf",
+    "images": {
+      "frontal": "/images/xrays/Mimic_19038530_frontal.png",
+      "lateral": "/images/xrays/Mimic_19038530_lateral.png"
+    },
+    "report": "The lungs are clear. No effusion. No pneumothorax. Moderate cardiomegaly. No acute osseous abnormality.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_19064426",
+    "indication": "___ year old man with left lower lobe nodule. Status post CT guided left lung biopsy. // Evaluate status post biopsy left lower lobe nodule. Please perform at 11:05.",
+    "images": {
+      "frontal": "/images/xrays/Mimic_19064426_frontal.png",
+      "lateral": "/images/xrays/Mimic_19064426_lateral.png"
+    },
+    "report": "The lungs are well inflated. There is no evidence of pneumothorax. There is no evidence of pleural effusion. The cardiomediastinal silhouette is normal. The left lower lobe nodule is not as well appreciated on the current examination.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_19596527",
+    "indication": "___ year old woman s/p CABG // eval for effusion",
+    "images": {
+      "frontal": "/images/xrays/Mimic_19596527_frontal.png",
+      "lateral": "/images/xrays/Mimic_19596527_lateral.png"
+    },
+    "report": "As compared to _, right-sided internal jugular catheter remains in the low svc. Increasing bibasal opacities. Small bilateral pleural effusions. No pneumothorax. Mild cardiomegaly. Increasing atelectasis in the right middle lobe.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_19807980",
+    "indication": "Status post cardiac surgery, evaluation for pneumonia.",
+    "images": {
+      "frontal": "/images/xrays/Mimic_19807980_frontal.png",
+      "lateral": "/images/xrays/Mimic_19807980_lateral.png"
+    },
+    "report": "Status post sternotomy. Moderate cardiomegaly with signs of mild-to-moderate pulmonary edema. Blunting of the costophrenic sinuses, so that the presence of minimal pleural effusions cannot be excluded. No pneumothorax.",
+    "model": "Maira-2 (with indication)"
+  },
+  {
+    "case_id": "Mimic_19856589",
+    "indication": "___ year old man with neutropenia and pna",
+    "images": {
+      "frontal": "/images/xrays/Mimic_19856589_frontal.png",
+      "lateral": "/images/xrays/Mimic_19856589_lateral.png"
+    },
+    "report": "The cardiomediastinal and hilar contours are normal. Consolidation in the right lower lobe. No pleural effusion. No pneumothorax.",
+    "model": "Maira-2 (with indication)"
+  }
+]
